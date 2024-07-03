@@ -1,0 +1,10 @@
+<h2>Search Admin</h2>
+<form action="/admin" method="GET">
+    <labels>Name</labels>
+    <input type="text" name="name" value="<%= searchOptions.name %>">
+    <button type="submit">Search</button>
+</form>
+<br>
+<% admin.forEach(admin => { %>
+    <div><%= admin.name %></div>
+<% }) %>

@@ -1,0 +1,4 @@
+- manage de clientes
+- manage de staff
+- manage de hoteis (quarto junto)
+- manage de reservas (pet junto)
