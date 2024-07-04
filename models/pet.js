@@ -7,7 +7,10 @@ const petSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        required: true
+        required: true,
+        enum: {
+            value: ["Cat","Dog","Rodent","Monkey","Equine"]
+        }
     },
     race: {
         type: String,
@@ -24,10 +27,9 @@ const petSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "Client"
+    ownerName: {
+        type: String,
+        required: true
     }
 })
 

@@ -1,43 +1,43 @@
 const express = require('express')
 const router = express.Router() //usa router do express
-const Admin = require('../../models/admin')
+const Client = require('../../../models/client')
 
-// rota all admins
+// rota all staff
 router.get('/', async (req, res) => {
-    let searchOptions = {}
+    /* let searchOptions = {}
     if (req.query.name != null && req.query.name !== '') {
         searchOptions.name = new RegExp(req.query.name, 'i') //this way you can only type "mon" to find "monkey"
     }
     try {
-        const admin = await Admin.find(searchOptions)
+        const staff = await Staff.find(searchOptions)
         res.render('admin/index', { 
-            admin: admin, 
+            staff: staff, 
             searchOptions: req.query
          })
     } catch {
         res.redirect('/')
-    }
+    } */
 })
 
-// rota new admin, display form
+// rota new staff
 router.get('/new', (req, res)=>{
-    res.render('admin/new', { admin: new Admin() })
-})
+/*     res.render('staff/new', { staff: new Staff() })
+ */})
 
-// cria o admin
+// cria o staff
 router.post('/', async (req, res)=>{
-    const admin = new Admin({
+    /* const staff = new Staff({
         name: req.body.name
     })
     try {
-        const newAdmin = await admin.save() //will populate newAdmin after saving admin
-        res.redirect('admin')
+        const newStaff = await staff.save() 
+        res.redirect('staff')
     } catch {
-        res.render('admin/new', {
-            admin: admin,
-            errorMessage: 'Error creating admin'
+        res.render('staff/new', {
+            staff: staff,
+            errorMessage: 'Error creating staff'
         })
-    }
+    } */
 })
 
 module.exports = router

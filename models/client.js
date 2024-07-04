@@ -16,7 +16,8 @@ const clientSchema = new mongoose.Schema({
     address: {
         type: String,
         required: true
-    }
+    },
+    pets: [mongoose.Schema.Types.ObjectId]
 })
 
 module.exports = mongoose.model('Client', clientSchema)

@@ -5,6 +5,10 @@ const roomSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    dailyPrice: {
+        type: Number,
+        required: true
+    },
     isVacant: {
         type: boolean,
         default: false
