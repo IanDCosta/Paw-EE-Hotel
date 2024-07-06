@@ -1,4 +1,19 @@
 <h2><%= customer.name %></h2>
+<ul>
+    <li>Email: <%= customer.email %></li>
+    <li>Contact: <%= customer.contact %></li>
+    <li>Address: <%= customer.address %></li>
+</ul>
 
 <a href="/customer/<%= customer.id %>/edit">Edit</a>
 <%- include('../partials/deleteForm.ejs', { url: `customer/${customer.id}` }) %>
+
+<% if (petsByCustomer.length > 0) { %>
+    <h2>Pets:</h2>
+    <% petsByCustomer.forEach(pet => { %>
+        <div>
+        <img height="150" width="150" src="<%= pet.photoPath %>">
+        <a href="/pet/<%= pet.id %>"><%= pet.name %><a>
+        </div>
+    <% }) %>
+<% } %>

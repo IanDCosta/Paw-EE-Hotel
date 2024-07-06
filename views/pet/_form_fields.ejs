@@ -1,14 +1,49 @@
 <!-- partial file! -->
 
-<label>Name</label>
-<input type="text" name="name" value="<%= pet.name %>">
-<label>Category</label>
-<input type="text" name="email" value="<%= pet.email %>">
-<label>Owner</label>
-<% owners.forEach(owner => { %>
-    <% if(owner.id === pet.owner) { %>
-        <option selected label="<%= owner.name %>" value="<%= owner.id %>"></option>
-    <% } else { %>
-        <option label="<%= owner.name %>" value="<%= owner.id %>"></option>
-    <% } %>
-<% }) %>
+<div>
+    <label>Name*</label>
+    <input type="text" name="name" value="<%= pet.name %>">
+</div>
+
+<div>
+    <label>Category*</label>
+    <select name="category">
+        <% categories.forEach(category => { %>
+            <option type="text" label="<%= category %>" value="<%= category %>"></option>
+        <% }) %>
+    </select>
+    <!-- <input type="text" name="category" value="<%= pet.category %>"> -->
+</div>
+
+<div>
+    <label>Race</label>
+    <input type="text" name="race" value="<%= pet.race %>">
+</div>
+
+<div>
+    <label>Special Care</label>
+    <textarea name="specialCare"><%= pet.specialCare %></textarea>
+</div>
+
+<div>
+    <label>Owner*</label>
+    <select name="owner">
+        <% owners.forEach(owner=> { %>
+            <% if(owner.id===pet.owner) { %>
+                <option selected label="<%= owner.name %>" value="<%= owner.id %>"></option>
+            <% } else { %>
+                    <option label="<%= owner.name %>" value="<%= owner.id %>"></option>
+            <% } %>
+        <% }) %>
+    </select>
+</div>
+
+<div>
+    <label>Photo*</label>
+    <input type="file" name="photo">
+</div>
+
+<div>
+    <label>Vaccine Card</label>
+    <input type="text" name="vaccines">
+</div>

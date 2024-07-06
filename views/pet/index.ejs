@@ -1,14 +1,28 @@
-<h2>Search Admin</h2>
+<h2>Search Pet</h2>
 <form action="/pet" method="GET">
-    <labels>Name</labels>
-    <input type="text" name="name" value="<%= searchOptions.name %>">
-    <button type="submit">Search</button>
+    <div>
+        <labels>Name</labels>
+        <input type="text" name="name" value="<%= searchOptions.name %>">
+        <button type="submit">Search</button>
+    </div>  
+    <div>
+        <labels>Category</labels>
+        <input type="text" name="category" value="<%= searchOptions.category %>">
+        <button type="submit">Search</button>
+    </div>
 </form>
 <br>
-<% pet.forEach(pet => { %>
-    <div><%= pet.name %></div>
-    <div><%= pet.email %></div>
-    <a href="/pet/<%= pet.id %>">View</a>
-    <a href="/pet/<%= pet.id %>/edit">Edit</a>
-    <%- include('../partials/deleteForm.ejs', { url: `/pet/${pet.id}` }) %>
-<% }) %>
+<div>
+    <% pet.forEach(pet => { %>
+        <img height="150" width="150" src="<%= pet.photoPath %>">
+        <div><%= pet.name %></div>
+        <div><%= pet.category %></div>
+        <% if (pet.race != null) {%>
+            <div><%= pet.race %></div>
+        <% } %>
+        <div><%= pet.owner.name %></div>
+        <a href="/pet/<%= pet.id %>">View</a>
+        <a href="/pet/<%= pet.id %>/edit">Edit</a>
+        <%- include('../partials/deleteForm.ejs', { url: `/pet/${pet.id}` }) %>
+    <% }) %>
+</div>

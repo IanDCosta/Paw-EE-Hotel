@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Pet = require('./pet')
 
 const customerSchema = new mongoose.Schema({
     name: {
@@ -20,8 +21,20 @@ const customerSchema = new mongoose.Schema({
     address: {
         type: String,
         required: true
-    },
-    pets: [mongoose.Schema.Types.ObjectId]
+    }
+})
+
+//run the method before remove customer
+customerSchema.pre('remove', function(next) {
+    Pet.find({ owner: this.customer.id }, (err, pet) => {
+        if(err){
+            next(err)
+        } else if (pet.length > 0) {
+            next(new Error('This customer has pets'))
+        } else {
+            next()
+        }
+    })
 })
 
 module.exports = mongoose.model('Customer', customerSchema)

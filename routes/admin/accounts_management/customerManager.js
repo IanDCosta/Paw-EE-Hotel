@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router() //usa router do express
 const Customer = require('../../../models/customer')
+const Pet = require('../../../models/pet')
 
 // rota all customers
 router.get('/', async (req, res) => {
@@ -48,11 +49,12 @@ router.post('/', async (req, res)=>{
 router.get('/:id', async (req, res) =>{
     try{
         const customer = await Customer.findById(req.params.id)
+        const pets = await Pet.find({ owner: customer.id }).exec()
         res.render('customer/show', {
-            customer: customer
+            customer: customer,
+            petsByCustomer: pets
         })
-    } catch (err) {
-        console.log(err)
+    } catch {
         res.redirect('/')
     }
 })

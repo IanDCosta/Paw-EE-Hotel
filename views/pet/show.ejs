@@ -1,4 +1,22 @@
 <h2><%= pet.name %></h2>
 
+<img height="150" width="150" src="<%= pet.photoPath %>">
+
+<ul>
+    <li>Category: <%= pet.category %></li>
+    <% if (pet.race != null) {%>
+        <li>Race: <%= pet.race %></li>
+    <% } %>
+    <% if (pet.specialCare != null) {%>
+        <li>SpecialCare: <%= pet.specialCare %></li>
+    <% } %>
+    <% if (pet.vaccines != null) {%>
+    <li>Vaccines: <%= pet.vaccines %></li>
+    <% } %>
+    <li>
+        <a href="/customer/<%= pet.owner.id %>">Owner: <%= pet.owner.name %></a>
+    </li>
+</ul>
+
 <a href="/pet/<%= pet.id %>/edit">Edit</a>
-<%- include('../partials/deleteForm.ejs', { url: `pet/${pet.id}` }) %>
+<%- include('../partials/deleteForm.ejs', { url: `/pet/${pet.id}` }) %>
