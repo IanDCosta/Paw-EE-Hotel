@@ -1,0 +1,14 @@
+<h2>Search Admin</h2>
+<form action="/pet" method="GET">
+    <labels>Name</labels>
+    <input type="text" name="name" value="<%= searchOptions.name %>">
+    <button type="submit">Search</button>
+</form>
+<br>
+<% pet.forEach(pet => { %>
+    <div><%= pet.name %></div>
+    <div><%= pet.email %></div>
+    <a href="/pet/<%= pet.id %>">View</a>
+    <a href="/pet/<%= pet.id %>/edit">Edit</a>
+    <%- include('../partials/deleteForm.ejs', { url: `/pet/${pet.id}` }) %>
+<% }) %>

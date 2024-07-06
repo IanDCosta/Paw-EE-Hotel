@@ -7,9 +7,8 @@ const petSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        required: true,
         enum: {
-            value: ["Cat","Dog","Rodent","Monkey","Equine"]
+            values: ["Cat","Dog","Rodent","Monkey","Equine"]
         }
     },
     race: {
@@ -21,16 +20,18 @@ const petSchema = new mongoose.Schema({
         required: true
     },
     vaccines: {
-        required: true
+        type: Number,
+        required: false
     },
     specialCare: {
         type: String,
         required: false
     },
-    ownerName: {
-        type: String,
-        required: true
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'Customer'
     }
 })
 
-module.exports = mongoose.model('Pet', clientSchema)
+module.exports = mongoose.model('Pet', petSchema)

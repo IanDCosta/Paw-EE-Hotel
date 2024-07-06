@@ -1,0 +1,4 @@
+<h2><%= customer.name %></h2>
+
+<a href="/customer/<%= customer.id %>/edit">Edit</a>
+<%- include('../partials/deleteForm.ejs', { url: `customer/${customer.id}` }) %>

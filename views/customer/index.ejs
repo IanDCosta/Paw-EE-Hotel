@@ -1,0 +1,14 @@
+<h2>Search Customer</h2>
+<form action="/customer" method="GET">
+    <labels>Name</labels>
+    <input type="text" name="name" value="<%= searchOptions.name %>">
+    <button type="submit">Search</button>
+</form>
+<br>
+<% customer.forEach(customer => { %>
+    <div><%= customer.name %></div>
+    <div><%= customer.email %></div>
+    <a href="/customer/<%= customer.id %>">View</a>
+    <a href="/customer/<%= customer.id %>/edit">Edit</a>
+    <%- include('../partials/deleteForm.ejs', { url: `/customer/${customer.id}` }) %>
+<% }) %>

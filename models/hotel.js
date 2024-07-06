@@ -8,7 +8,9 @@ const hotelSchema = new mongoose.Schema({
     address: {
 
     },
-    rooms: [mongoose.Schema.Types.ObjectId]
+    rooms: {
+        
+    }
 })
 
 module.exports = mongoose.model('Hotel', hotelSchema)

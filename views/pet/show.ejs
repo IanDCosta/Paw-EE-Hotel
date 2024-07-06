@@ -1,0 +1,4 @@
+<h2><%= pet.name %></h2>
+
+<a href="/pet/<%= pet.id %>/edit">Edit</a>
+<%- include('../partials/deleteForm.ejs', { url: `pet/${pet.id}` }) %>

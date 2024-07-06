@@ -1,0 +1,14 @@
+<!-- partial file! -->
+
+<label>Name</label>
+<input type="text" name="name" value="<%= pet.name %>">
+<label>Category</label>
+<input type="text" name="email" value="<%= pet.email %>">
+<label>Owner</label>
+<% owners.forEach(owner => { %>
+    <% if(owner.id === pet.owner) { %>
+        <option selected label="<%= owner.name %>" value="<%= owner.id %>"></option>
+    <% } else { %>
+        <option label="<%= owner.name %>" value="<%= owner.id %>"></option>
+    <% } %>
+<% }) %>

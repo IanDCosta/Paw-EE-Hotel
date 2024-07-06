@@ -6,7 +6,7 @@ const reservationSchema = new mongoose.Schema({
         required: true
     },
     location: {
-        //um hotel tem varios quartos?, faço a location ser o hotel + o numero do quarto?
+        type: mongoose.Schema.Types.ObjectId
     },
     dateBegin: {
         type: Date,
@@ -33,4 +33,4 @@ const reservationSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Admin', adminSchema)
+module.exports = mongoose.model('Reservation', reservationSchema)

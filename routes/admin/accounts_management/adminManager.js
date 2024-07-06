@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-// rota new admin, display form
+// rota new admin, display form, must be above the /:id ones
 router.get('/new', (req, res)=>{
     res.render('admin/new', { admin: new Admin() })
 })
@@ -27,7 +27,9 @@ router.get('/new', (req, res)=>{
 // cria o admin
 router.post('/', async (req, res)=>{
     const admin = new Admin({
-        name: req.body.name
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password
     })
     try {
         const newAdmin = await admin.save() //will populate newAdmin after saving admin
@@ -41,8 +43,16 @@ router.post('/', async (req, res)=>{
 })
 
 //see admin profile
-router.get('/:id', (req, res) =>{
-    res.send('Show Admin ' + req.params.id)
+router.get('/:id', async (req, res) =>{
+    try{
+        const admin = await Admin.findById(req.params.id)
+        res.render('admin/show', {
+            admin: admin
+        })
+    } catch (err) {
+        console.log(err)
+        res.redirect('/')
+    }
 })
 
 //edit admin
@@ -59,16 +69,15 @@ router.get('/:id/edit', async (req, res) => {
 //admin edited
 router.put('/:id', async (req, res) => {
     let admin
-    console.log("1")
     try {
-        console.log("2")
         admin = await Admin.findById(req.params.id)
-        console.log("3")
+
         admin.name = req.body.name
-        //await admin.save() //will populate newAdmin after saving admin
-        console.log("4")
+        admin.email = req.body.email
+        admin.password = req.body.password
+
+        await admin.save() //will populate newAdmin after saving admin
         res.redirect(`/admin/${admin.id}`)
-        console.log("5")
     } catch {
         if (admin == null) {
             res.redirect('/')
@@ -82,8 +91,19 @@ router.put('/:id', async (req, res) => {
 })
 
 //delete admin
-router.delete('/:id', (req, res) => {
-    res.send('Delete ' + req.params.id)
+router.delete('/:id', async (req, res) => {
+    let admin
+    try {
+        admin = await Admin.findById(req.params.id)
+        await admin.deleteOne() //will remove admin
+        res.redirect('/admin')
+    } catch {
+        if (admin == null) {
+            res.redirect('/')
+        } else {
+            res.redirect(`/admin/${admin.id}`)
+        }
+    }
 })
 
 module.exports = router
