@@ -11,6 +11,7 @@ const adminManagerRouter = require('./routes/admin/accounts_management/adminMana
 const staffManagerRouter = require('./routes/admin/accounts_management/staffManager')
 const customerManagerRouter = require('./routes/admin/accounts_management/customerManager')
 const petManagerRouter = require('./routes/admin/petManager')
+const hotelManagerRouter = require('./routes/admin/hotelManager')
 
 app.set('view engine', 'ejs') //set ejs as view engine
 app.set('views', __dirname + '/views') //set views file
@@ -26,6 +27,7 @@ app.use('/admin', adminManagerRouter)
 app.use('/staff', staffManagerRouter)
 app.use('/customer', customerManagerRouter)
 app.use('/pet', petManagerRouter)
+app.use('/hotel', hotelManagerRouter)
 
 mongoose.connect(DATABASE_URL, { 
     useNewUrlParser: true 

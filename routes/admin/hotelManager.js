@@ -1,15 +1,37 @@
 const express = require('express')
 const router = express.Router() //usa router do express
-const Hotel = require('../../../models/hotel')
+const multer = require('multer')
+const Hotel = require('../../models/hotel')
+const Room = require('../../models/room')
+const fs = require('fs')
+const path = require('path')
+const uploadPath = path.join('public', Hotel.photoBasePath)
+const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif'] //image types accepted
+const upload = multer({
+    dest: uploadPath,
+    fileFilter: (req, file, callback) => {
+        callback(null, imageMimeTypes.includes(file.mimetype))
+    }
+})
 
 // rota all hotels
 router.get('/', async (req, res) => {
-    let searchOptions = {}
-    if (req.query.name != null && req.query.name !== '') {
-        searchOptions.name = new RegExp(req.query.name, 'i') //this way you can only type "mon" to find "monkey"
+    let query = Hotel.find()
+    if(req.query.name != null && req.query != ''){
+        query = query.regex('name', new RegExp(req.query.name, 'i'))
     }
+    if(req.query.address != null && req.query != ''){
+        query = query.regex('address', new RegExp(req.query.address, 'i')) //regular expression
+    }
+    if (req.query.dailyPriceMin != null && req.query.dailyPriceMin != '') {
+        query = query.gte('dailyPrice', req.query.dailyPriceMin)
+    }
+    if (req.query.dailyPriceMax != null && req.query.dailyPriceMax != '') {
+        query = query.lte('dailyPrice', req.query.dailyPriceMax)
+    }
+    //has vacant rooms search parameter
     try {
-        const hotel = await Hotel.find(searchOptions)
+        const hotel = await query.exec()
         res.render('hotel/index', { 
             hotel: hotel, 
             searchOptions: req.query
@@ -21,37 +43,75 @@ router.get('/', async (req, res) => {
 
 // rota new hotel, display form
 router.get('/new', (req, res)=>{
-    res.render('hotel/new', { hotel: new Hotel() })
+    res.render('hotel/new', { 
+        hotel: new Hotel(),
+        isEditing: false
+    })
 })
 
 // cria o hotel
-router.post('/', async (req, res)=>{
+router.post('/', upload.single('photo'), async (req, res)=>{
+    const filename = req.file != null ? req.file.filename : null
+    console.log(req.file)
+    let rooms = []
+    for(let i = 0; i < req.body.numberOfRooms; i++){
+        let room = new Room({
+            roomNumber: i + 1
+        })
+        rooms.push(room)
+    }
+    
     const hotel = new Hotel({
         name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
+        address: req.body.address,
+        dailyPrice: req.body.dailyPrice,
+        numberOfRooms: req.body.numberOfRooms,
+        rooms: rooms,
+        photoName: filename
     })
     try {
         const newHotel = await hotel.save() //will populate newHotel after saving hotel
         res.redirect(`/hotel/${newHotel.id}`)
-    } catch {
+    } catch (err) {
+        if (hotel.photoName != null){
+            removePhoto(hotel.photoName)
+        } else {
+            console.log(err)
+        }
         res.render('hotel/new', {
             hotel: hotel,
+            isEditing: false,
             errorMessage: 'Error creating hotel'
         })
     }
 })
 
+function removePhoto(filename){
+    fs.unlink(path.join(uploadPath, filename), err => {
+        if(err) console.error(err)
+    })
+}
+
 //see hotel profile
-router.get('/:id', (req, res) =>{
-    res.send('Show Hotel ' + req.params.id)
+router.get('/:id', async (req, res) =>{
+    try{
+        const hotel = await Hotel.findById(req.params.id)
+        res.render('hotel/show', {
+            hotel: hotel
+        })
+    } catch {
+        res.redirect('/')
+    }
 })
 
 //edit hotel
 router.get('/:id/edit', async (req, res) => {
     try{
         const hotel = await Hotel.findById(req.params.id)
-        res.render('hotel/edit', { hotel: hotel })    
+        res.render('hotel/edit', { 
+            hotel: hotel,
+            isEditing: true
+        })    
     } catch {
         res.redirect('/hotel')
     }
@@ -65,10 +125,10 @@ router.put('/:id', async (req, res) => {
         hotel = await Hotel.findById(req.params.id)
 
         hotel.name = req.body.name
-        hotel.email = req.body.email
-        hotel.password = req.body.password
+        hotel.address = req.body.address
+        hotel.dailyPrice = req.body.dailyPrice
 
-        await hotel.save() //will populate newHotel after saving hotel
+        await hotel.save() 
         res.redirect(`/hotel/${hotel.id}`)
     } catch {
         if (hotel == null) {
@@ -76,6 +136,7 @@ router.put('/:id', async (req, res) => {
         } else {
             res.render('hotel/edit', {
                 hotel: hotel,
+                isEditing: true,
                 errorMessage: 'Error updating hotel'
             })
         }
@@ -97,4 +158,5 @@ router.delete('/:id', async (req, res) => {
         }
     }
 })
+
 module.exports = router

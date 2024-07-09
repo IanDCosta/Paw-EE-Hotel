@@ -103,7 +103,8 @@ router.delete('/:id', async (req, res) => {
         customer = await Customer.findById(req.params.id)
         await customer.deleteOne() //will remove customer
         res.redirect('/customer')
-    } catch {
+    } catch (err) {
+        console.log(err)
         if (customer == null) {
             res.redirect('/')
         } else {

@@ -25,16 +25,19 @@ const customerSchema = new mongoose.Schema({
 })
 
 //run the method before remove customer
-customerSchema.pre('remove', function(next) {
-    Pet.find({ owner: this.customer.id }, (err, pet) => {
-        if(err){
-            next(err)
-        } else if (pet.length > 0) {
-            next(new Error('This customer has pets'))
+customerSchema.pre("deleteOne", async function (next) {
+    try {
+        const query = this.getFilter();
+        const hasPet = await Pet.exists({ owner: query._id });
+    
+        if (hasPet) {
+            next(new Error("This customer still has pets."));
         } else {
-            next()
+            next();
         }
-    })
-})
+    } catch (err) {
+        next(err);
+    }
+});
 
 module.exports = mongoose.model('Customer', customerSchema)

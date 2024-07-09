@@ -6,7 +6,7 @@
 </ul>
 
 <a href="/customer/<%= customer.id %>/edit">Edit</a>
-<%- include('../partials/deleteForm.ejs', { url: `customer/${customer.id}` }) %>
+<%- include('../partials/deleteForm.ejs', { url: `/customer/${customer.id}` }) %>
 
 <% if (petsByCustomer.length > 0) { %>
     <h2>Pets:</h2>

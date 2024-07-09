@@ -1,0 +1,28 @@
+<h2>Search Hotel</h2>
+<form action="/hotel" method="GET">
+    <div>
+        <labels>Name</labels>
+        <input type="text" name="name" value="<%= searchOptions.name %>">
+        </div>
+    <div>
+        <labels>Address</labels>
+        <input type="text" name="address" value="<%= searchOptions.address %>">
+    </div>
+    <div>
+        <label>Min Price</label>
+        <input type="number" name="dailyPriceMin" value="<%= searchOptions.dailyPriceMin %>">
+        <label>Max Price</label>
+        <input type="number" name="dailyPriceMax" value="<%= searchOptions.dailyPriceMax %>">
+    </div>
+    <button type="submit">Search</button>
+</form>
+<br>
+<% hotel.forEach(hotel => { %>
+    <img height="150" width="150" src="<%= hotel.photoPath %>">
+    <div><%= hotel.name %></div>
+    <div><%= hotel.address %></div>
+    <div>€ <%= hotel.dailyPrice %></div>
+    <a href="/hotel/<%= hotel.id %>">View</a>
+    <a href="/hotel/<%= hotel.id %>/edit">Edit</a>
+    <%- include('../partials/deleteForm.ejs', { url: `/hotel/${hotel.id}` }) %>
+<% }) %>

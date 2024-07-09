@@ -54,8 +54,8 @@ router.post('/', upload.single('photo'), async (req, res)=>{
 
     try{
         const newPet = await pet.save()
-        //res.reditect(`pet/${newPet.id}`)
-        res.redirect(`pet`)
+        res.reditect(`pet/${newPet.id}`)
+        //res.redirect(`pet`)
     } catch {
         if (pet.photoName != null){
             removePhoto(pet.photoName)
@@ -81,7 +81,7 @@ async function renderNewPage(res, pet, hasError = false) {
         }
         if (hasError) params.errorMessage = 'Error Creating Pet'
         res.render('pet/new', params)
-    } catch (err) {
+    } catch {
         res.redirect('/pet')
     }
 }
@@ -93,8 +93,7 @@ router.get('/:id', async (req, res) =>{
         res.render('pet/show', {
             pet: pet
         })
-    } catch (err) {
-        console.log(err)
+    } catch {
         res.redirect('/')
     }
 })

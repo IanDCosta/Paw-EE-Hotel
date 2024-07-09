@@ -1,12 +1,9 @@
 const mongoose = require('mongoose')
 
 const reservationSchema = new mongoose.Schema({
-    id: {
-        type: String,
+    location: { //hotel + room
+        type: mongoose.Schema.Types.ObjectId,
         required: true
-    },
-    location: {
-        type: mongoose.Schema.Types.ObjectId
     },
     dateBegin: {
         type: Date,
@@ -20,6 +17,10 @@ const reservationSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "Pet"
+    },
+    customerName: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
     },
     pricePerDay: {
         type: Number,
