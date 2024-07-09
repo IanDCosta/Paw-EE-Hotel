@@ -52,15 +52,18 @@ router.get('/new', (req, res)=>{
 // cria o hotel
 router.post('/', upload.single('photo'), async (req, res)=>{
     const filename = req.file != null ? req.file.filename : null
-    console.log(req.file)
-    let rooms = []
+
+    const rooms = []
+
     for(let i = 0; i < req.body.numberOfRooms; i++){
         let room = new Room({
-            roomNumber: i + 1
+            roomNumber: i + 1,
+            isVacant: true
         })
-        rooms.push(room)
+        await room.save()
+        rooms.push(room._id)
     }
-    
+
     const hotel = new Hotel({
         name: req.body.name,
         address: req.body.address,
@@ -71,12 +74,11 @@ router.post('/', upload.single('photo'), async (req, res)=>{
     })
     try {
         const newHotel = await hotel.save() //will populate newHotel after saving hotel
+        
         res.redirect(`/hotel/${newHotel.id}`)
-    } catch (err) {
+    } catch {
         if (hotel.photoName != null){
             removePhoto(hotel.photoName)
-        } else {
-            console.log(err)
         }
         res.render('hotel/new', {
             hotel: hotel,
@@ -148,7 +150,17 @@ router.delete('/:id', async (req, res) => {
     let hotel
     try {
         hotel = await Hotel.findById(req.params.id)
+
+        hotel.rooms.forEach(async room =>{
+            await Room.findByIdAndDelete(room)
+        })
+
+        if (hotel.photoName != null){
+            removePhoto(hotel.photoName)
+        }
+
         await hotel.deleteOne() //will remove hotel
+        
         res.redirect('/hotel')
     } catch {
         if (hotel == null) {

@@ -1,2 +1,10 @@
-Index Page Middle
-(Unsolved Reservation Requests?)
+<h2>Pending Reservations</h2>
+<% if(reservations.length == 0) { %>
+    <h3>There are no pending reservations at this moment</h3>
+<% } %>
+<% reservations.forEach(reservation => { %>
+    <% if(reservation.state == "Pending"){ %>
+        <h3>Reservation <% reservation.code %></h3>
+        <a href="/reservation/<%= reservation.id %>">Details</a>
+    <% } %>
+<% }) %>

@@ -12,6 +12,7 @@ const staffManagerRouter = require('./routes/admin/accounts_management/staffMana
 const customerManagerRouter = require('./routes/admin/accounts_management/customerManager')
 const petManagerRouter = require('./routes/admin/petManager')
 const hotelManagerRouter = require('./routes/admin/hotelManager')
+const reservationManagerRouter = require('./routes/staff/reservationManager')
 
 app.set('view engine', 'ejs') //set ejs as view engine
 app.set('views', __dirname + '/views') //set views file
@@ -28,6 +29,7 @@ app.use('/staff', staffManagerRouter)
 app.use('/customer', customerManagerRouter)
 app.use('/pet', petManagerRouter)
 app.use('/hotel', hotelManagerRouter)
+app.use('/reservation', reservationManagerRouter)
 
 mongoose.connect(DATABASE_URL, { 
     useNewUrlParser: true 
@@ -35,7 +37,5 @@ mongoose.connect(DATABASE_URL, {
 const db = mongoose.connection
 db.on('error', error => console.error(error))
 db.once('open', () => console.log('Connected to Mongoose'))
-
-app.use('/', indexRouter) //raiz da app
 
 app.listen(process.env.PORT || 3000) //default port pra 3000

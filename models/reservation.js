@@ -1,37 +1,59 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const reservationSchema = new mongoose.Schema({
-    location: { //hotel + room
-        type: mongoose.Schema.Types.ObjectId,
-        required: true
+  code: {
+    type: String,
+    required: true,
+  },
+  location: {
+    //hotel + room
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Hotel",
+  },
+  dateBegin: {
+    type: Date,
+    required: true,
+  },
+  dateEnd: {
+    type: Date,
+    required: true,
+  },
+  pet: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Pet",
+  },
+  customer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Customer"
+  },
+  dailyPrice: {
+    type: Number
+  },
+  state: {
+    type: String,
+    enum: {
+      values: ["Pending", "Confirmed", "Paid", "Cancelled"],
     },
-    dateBegin: {
-        type: Date,
-        required: true
-    },
-    dateEnd: {
-        type: Date,
-        required: true
-    },
-    pet: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "Pet"
-    },
-    customerName: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-    },
-    pricePerDay: {
-        type: Number,
-        required: true
-    },
-    state: {
-        type: String,
-        enum: {
-            values: ["Pending","Confirmed","Paid","Cancelled"]
-        }
-    }
-})
+    default: "Pending",
+  },
+});
 
-module.exports = mongoose.model('Reservation', reservationSchema)
+reservationSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "pet",
+    select: "owner",
+  });
+  next();
+});
+
+reservationSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "location",
+    select: "dailyPrice",
+  });
+  next();
+});
+
+module.exports = mongoose.model("Reservation", reservationSchema);

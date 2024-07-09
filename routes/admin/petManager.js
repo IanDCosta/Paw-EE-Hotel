@@ -54,12 +54,13 @@ router.post('/', upload.single('photo'), async (req, res)=>{
 
     try{
         const newPet = await pet.save()
-        res.reditect(`pet/${newPet.id}`)
+        res.redirect(`pet/${newPet.id}`)
         //res.redirect(`pet`)
-    } catch {
+    } catch (err) {
         if (pet.photoName != null){
             removePhoto(pet.photoName)
         }
+        console.log(err)
         renderNewPage(res, pet, true)
     }
 })
@@ -114,6 +115,11 @@ router.delete('/:id', async (req, res) => {
     let pet
     try {
         pet = await Pet.findById(req.params.id)
+        
+        if (pet.photoName != null){
+            removePhoto(pet.photoName)
+        }
+
         await pet.deleteOne() //will remove pet
         res.redirect('/pet')
     } catch {

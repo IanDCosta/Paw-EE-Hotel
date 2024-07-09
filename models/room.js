@@ -7,7 +7,7 @@ const roomSchema = new mongoose.Schema({
     },
     isVacant: {
         type: Boolean,
-        default: false
+        default: true
     }
 })
 
