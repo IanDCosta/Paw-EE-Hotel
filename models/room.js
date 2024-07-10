@@ -8,6 +8,11 @@ const roomSchema = new mongoose.Schema({
     isVacant: {
         type: Boolean,
         default: true
+    },
+    hotel: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "Hotel"
     }
 })
 

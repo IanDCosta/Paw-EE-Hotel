@@ -45,5 +45,23 @@ hotelSchema.virtual("photoPath").get(function () {
   }
 });
 
+hotelSchema.statics.findHotelsWithVacantRooms = function() {
+  return this.aggregate([
+    {
+      $lookup: {
+        from: 'rooms',
+        localField: 'rooms',
+        foreignField: '_id',
+        as: 'rooms'
+      }
+    },
+    {
+      $match: {
+        'rooms.isVacant': true
+      }
+    }
+  ]);
+};
+
 module.exports = mongoose.model("Hotel", hotelSchema);
 module.exports.photoBasePath = photoBasePath;

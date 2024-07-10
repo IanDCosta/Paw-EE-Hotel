@@ -6,8 +6,9 @@
 </form>
 <br>
 <% reservation.forEach(reservation => { %>
-    <div><%= reservation.name %></div>
-    <div><%= reservation.email %></div>
+    <div>Reservation <%= reservation.code %></div>
+    <div>State: <%= reservation.state %></div>
+    <div>Customer: <%= reservation.customer.name %></div>
     <a href="/reservation/<%= reservation.id %>">View</a>
     <a href="/reservation/<%= reservation.id %>/edit">Edit</a>
     <%- include('../partials/deleteForm.ejs', { url: `/reservation/${reservation.id}` }) %>

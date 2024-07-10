@@ -53,25 +53,27 @@ router.get('/new', (req, res)=>{
 router.post('/', upload.single('photo'), async (req, res)=>{
     const filename = req.file != null ? req.file.filename : null
 
-    const rooms = []
-
-    for(let i = 0; i < req.body.numberOfRooms; i++){
-        let room = new Room({
-            roomNumber: i + 1,
-            isVacant: true
-        })
-        await room.save()
-        rooms.push(room._id)
-    }
-
     const hotel = new Hotel({
         name: req.body.name,
         address: req.body.address,
         dailyPrice: req.body.dailyPrice,
         numberOfRooms: req.body.numberOfRooms,
-        rooms: rooms,
         photoName: filename
     })
+
+    const rooms = []
+    for(let i = 0; i < req.body.numberOfRooms; i++){
+        let room = new Room({
+            roomNumber: i + 1,
+            isVacant: true,
+            hotel: hotel.id
+        })
+        await room.save()
+        rooms.push(room._id)
+    };
+
+    hotel.rooms = rooms;
+
     try {
         const newHotel = await hotel.save() //will populate newHotel after saving hotel
         

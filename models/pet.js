@@ -34,8 +34,9 @@ const petSchema = new mongoose.Schema({
     }
 })
 
+//middleware:
 //the owner attributes is not populated, only the id is passed, this function will populate only the name of the owner
-petSchema.pre(/^find/, function (next) {
+petSchema.pre(/^find/, function (next) { // /^find/ is a RegEx and will apply to all mongoose methods starting with "find"
     this.populate({
       path: "owner",
       select: "name", 

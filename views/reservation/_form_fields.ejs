@@ -8,14 +8,16 @@
 </div>
 
 <div>
+    <% if(hotels.length > 0){ %>
     <label>Location*</label>
-    <select name="location">
-        <% hotels.forEach(hotel => { %>
-            <% if(hotel.rooms.some((obj) => obj.isVacant === true)){ %>
-                <option label="<%= hotel.name %>" value="<%= hotel.id %>"></option>
-            <% } %>
-        <% }) %>
-    </select>
+        <select name="location">
+            <% hotels.forEach(hotel => { %>
+                <option label="<%= hotel.name %>" value="<%= hotel._id %>"></option>
+            <% }) %>
+        </select>
+    <% } else { %>
+        <label>Location* There are no Hotels available right now</label>
+    <% } %>
 </div>
 
 <div>

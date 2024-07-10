@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+/* const Hotel = require('./hotel')
+const Room = require('./room')
+ */
 
 const reservationSchema = new mongoose.Schema({
   code: {
@@ -6,10 +9,16 @@ const reservationSchema = new mongoose.Schema({
     required: true,
   },
   location: {
-    //hotel + room
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: "Hotel",
+    hotel: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Hotel",
+    },
+    room: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Room",
+    },
   },
   dateBegin: {
     type: Date,
@@ -26,10 +35,10 @@ const reservationSchema = new mongoose.Schema({
   },
   customer: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Customer"
+    ref: "Customer",
   },
   dailyPrice: {
-    type: Number
+    type: Number,
   },
   state: {
     type: String,
@@ -43,7 +52,15 @@ const reservationSchema = new mongoose.Schema({
 reservationSchema.pre(/^find/, function (next) {
   this.populate({
     path: "pet",
-    select: "owner",
+    select: { owner: 1, name: 1 },
+  });
+  next();
+});
+
+reservationSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "customer",
+    select: "name",
   });
   next();
 });
@@ -51,7 +68,16 @@ reservationSchema.pre(/^find/, function (next) {
 reservationSchema.pre(/^find/, function (next) {
   this.populate({
     path: "location",
-    select: "dailyPrice",
+    populate: [
+      {
+        path: "hotel",
+        select: { name: 1, address: 1 },
+      },
+      {
+        path: "room",
+        select: { roomNumber: 1 }
+      },
+    ],
   });
   next();
 });
