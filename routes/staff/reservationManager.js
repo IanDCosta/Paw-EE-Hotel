@@ -34,11 +34,11 @@ router.post("/", async (req, res) => {
   const reservation = new Reservation({
     code: req.body.code,
     location: {
-      hotel: req.body.location
+      hotel: req.body.location,
     },
-    dateBegin: req.body.dateBegin,
-    dateEnd: req.body.dateEnd,
-    pet: req.body.pet
+    dateBegin: new Date(req.body.dateBegin),
+    dateEnd: new Date(req.body.dateEnd),
+    pet: req.body.pet,
   });
 
   try {
@@ -51,9 +51,9 @@ router.post("/", async (req, res) => {
     );
     room.save();
 
-    reservation.location.room = room
-    reservation.dailyPrice = hotel.dailyPrice
-    reservation.customer = pet.owner
+    reservation.location.room = room;
+    reservation.dailyPrice = hotel.dailyPrice;
+    reservation.customer = pet.owner;
 
     const newReservation = await reservation.save(); //will populate newReservation after saving reservation
     res.redirect(`/reservation/${newReservation.id}`);
@@ -97,8 +97,13 @@ router.get("/:id", async (req, res) => {
 //edit reservation
 router.get("/:id/edit", async (req, res) => {
   try {
-    const reservation = await Reservation.findById(req.params.id);
-    res.render("reservation/edit", { reservation: reservation });
+    renderEditPage(res, await Reservation.findById(req.params.id), false);
+    /* 
+    res.render("reservation/edit", { 
+      reservation: reservation, 
+      hotels: hotels,
+      pets: pets
+    }); */
   } catch {
     res.redirect("/reservation");
   }
@@ -109,6 +114,16 @@ router.put("/:id", async (req, res) => {
   let reservation;
   try {
     reservation = await Reservation.findById(req.params.id);
+
+    /* reservation.code = req.body.code
+    reservation.location = {
+      hotel: req.body.location
+    }
+    reservation.dateBegin = new Date(req.body.dateBegin)
+    reservation.dateEnd = new Date(req.body.dateEnd)
+    reservation.pet = req.body.pet */
+
+    reservation.code = req.body.code;
 
     await reservation.save(); //will populate newReservation after saving reservation
     res.redirect(`/reservation/${reservation.id}`);
@@ -123,6 +138,25 @@ router.put("/:id", async (req, res) => {
     }
   }
 });
+
+async function renderEditPage(res, reservation, hasError = false) {
+  try {
+    /* const hotels = await Hotel.findHotelsWithVacantRooms({});
+    const pets = await Pet.find({}); */
+    const states = ["Pending", "Confirmed", "Paid", "Cancelled"]
+    const params = {
+      /* hotels: hotels,
+      pets: pets, */
+      states: states
+    }
+    //const reservation = await Reservation.findById(req.params.id);
+
+    if(hasError) params.errorMessage = 'Error Updating Reservation'
+    res.render('reservation/edit', params)
+  } catch {
+    res.redirect('/reservation')
+  }
+}
 
 //delete reservation
 router.delete("/:id", async (req, res) => {

@@ -22,13 +22,13 @@
 
 <div>
 <label>Begin Date:</label>
-<input type="date" name="dateBegin" 
+<input type="date" min="<% %>" name="dateBegin" 
     value="<%= reservation.dateBegin == null ? '' : reservation.dateBegin.toISOString().split('T')[0] %>">
 </div>
 
 <div>
 <label>End Date</label>
-<input type="date" name="dateEnd" 
+<input type="date" min="<%  %>" name="dateEnd" 
 value="<%= reservation.dateEnd == null ? '' : reservation.dateEnd.toISOString().split('T')[0] %>">
 </div>
 

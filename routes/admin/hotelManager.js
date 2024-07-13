@@ -123,14 +123,18 @@ router.get('/:id/edit', async (req, res) => {
 })
 
 //hotel edited
-router.put('/:id', async (req, res) => {
+router.put('/:id', upload.single('photo'), async (req, res) => {
+    const filename = req.file != null ? req.file.filename : null
     let hotel
     try {
         hotel = await Hotel.findById(req.params.id)
 
+        removePhoto(pet.photoName)
+
         hotel.name = req.body.name
         hotel.address = req.body.address
         hotel.dailyPrice = req.body.dailyPrice
+        hotel.photoName = filename
 
         await hotel.save() 
         res.redirect(`/hotel/${hotel.id}`)

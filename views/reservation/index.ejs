@@ -12,4 +12,5 @@
     <a href="/reservation/<%= reservation.id %>">View</a>
     <a href="/reservation/<%= reservation.id %>/edit">Edit</a>
     <%- include('../partials/deleteForm.ejs', { url: `/reservation/${reservation.id}` }) %>
+    <br>
 <% }) %>

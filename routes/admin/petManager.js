@@ -101,14 +101,68 @@ router.get('/:id', async (req, res) =>{
 
 //edit pet
 router.get('/:id/edit', async (req, res) => {
-    
-    
+    try{
+        renderEditPage(res, await Pet.findById(req.params.id), false)
+        /* res.render('pet/edit', { 
+            pet: pet,
+            categories: categories,
+            owners: owners,
+        }) */
+    } catch (err) {
+        console.log(err)
+        res.redirect('/pet')
+    }
 })
 
 //pet edited
-router.put('/:id', async (req, res) => {
-    
+router.put('/:id', upload.single('photo'), async (req, res) => {
+    const filename = req.file != null ? req.file.filename : null
+    let pet
+    try {
+        pet = await Pet.findById(req.params.id)
+
+        //const photoToRemove = pet.photoName
+
+        pet.name = req.body.name
+        pet.category = req.body.category
+        pet.race = req.body.race
+        pet.specialCare = req.body.specialCare
+        pet.owner = req.body.owner
+        pet.photoName = filename
+        pet.vaccines = req.body.vaccines
+
+        //removePhoto(photoToRemove)
+        await pet.save() 
+        res.redirect(`pet/${pet.id}`)
+    } catch (err) {
+        console.log(err)
+        if (pet.photoName != null){
+            removePhoto(pet.photoName)
+        }
+        if (pet == null) {
+            res.redirect('/')
+        } else {
+            renderEditPage(res, pet, true)
+        }
+    }
 })
+
+async function renderEditPage(res, pet, hasError = false) {
+    try {
+        const owners = await Customer.find({})
+        const categories = ["Cat","Dog","Hamster","Monkey","Equine"]
+        const params = {
+            owners: owners,
+            pet: pet,
+            categories: categories
+        }
+        if (hasError) params.errorMessage = 'Error Updating Pet'
+        res.render('pet/edit', params)
+    } catch (err) {
+        console.log(err)
+        res.redirect('/pet')
+    }
+}
 
 //delete pet
 router.delete('/:id', async (req, res) => {

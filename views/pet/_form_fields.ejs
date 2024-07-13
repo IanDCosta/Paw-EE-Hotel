@@ -8,11 +8,12 @@
 <div>
     <label>Category*</label>
     <select name="category">
-        <% categories.forEach(category => { %>
-            <option type="text" label="<%= category %>" value="<%= category %>"></option>
-        <% }) %>
+        <option <% if (pet.category==='Cat' ) { %> selected <% } %> value="Cat">Cat</option>
+        <option <% if (pet.category==='Dog' ) { %> selected <% } %> value="Dog">Dog</option>
+        <option <% if (pet.category==='Hamster' ) { %> selected <% } %> value="Hamster">Hamster</option>
+        <option <% if (pet.category==='Monkey' ) { %> selected <% } %> value="Monkey">Monkey</option>
+        <option <% if (pet.category==='Equine' ) { %> selected <% } %> value="Equine">Equine</option>
     </select>
-    <!-- <input type="text" name="category" value="<%= pet.category %>"> -->
 </div>
 
 <div>

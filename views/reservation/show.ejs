@@ -1,14 +1,7 @@
 <h2>Reservation <%= reservation.code %></h2>
 <h3>State: <%= reservation.state %></h3>
 
-<ul>
-    <li>Location: <%= reservation.location.hotel.name + ', ' +  reservation.location.hotel.address + ', Room ' + reservation.location.room.roomNumber%></li>
-    <li>Begin: <%= reservation.dateBegin %></li>
-    <li>End: <%= reservation.dateEnd %></li>
-    <li>Pet: <%= reservation.pet.name %></li>
-    <li>Customer: <%= reservation.customer.name %></li>
-    <li>Daily: € <%= reservation.dailyPrice %></li>
-</ul>
+<%- include('_info') %>
 
 <a href="/reservation/<%= reservation.id %>/edit">Edit</a>
 <%- include('../partials/deleteForm.ejs', { url: `/reservation/${reservation.id}` }) %>

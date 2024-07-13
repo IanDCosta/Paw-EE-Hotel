@@ -4,7 +4,12 @@
 <% } %>
 <% reservations.forEach(reservation => { %>
     <% if(reservation.state == "Pending"){ %>
-        <h3>Reservation <% reservation.code %></h3>
+        <div>Reservation <%= reservation.code %></div>
+        <div>State: <%= reservation.state %></div>
+        <div>Customer: <%= reservation.customer.name %></div>
         <a href="/reservation/<%= reservation.id %>">Details</a>
+        <a href="/reservation/<%= reservation.id %>/edit">Edit</a>
+        <%- include('./partials/deleteForm.ejs', { url: `/reservation/${reservation.id}` }) %>
+        <br>
     <% } %>
-<% }) %>
+<% }) %> 
