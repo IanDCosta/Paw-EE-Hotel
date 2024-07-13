@@ -1,0 +1,29 @@
+<!-- partial file! -->
+<div class="form-row">
+    <div class="form-item">
+        <label>Set Hotel Name</label>
+        <input type="text" name="name" value="<%= hotel.name %>">
+    </div>
+
+    <div class="form-item">
+        <label>Set Hotel Address</label>
+        <input type="text" name="address" value="<%= hotel.address %>">
+    </div>
+
+    <div class="form-item">
+        <label>Set Price</label>
+        <input type="number" name="dailyPrice" value="<%= hotel.dailyPrice %>">
+    </div>
+
+    <% if(isEditing==false) {%>
+        <div class="form-item">
+            <label>Set the number of rooms</label>
+            <input type="number" name="numberOfRooms" value="<%= hotel.numberOfRooms %>">
+        </div>
+    <% } %>
+
+    <div class="form-item">
+        <label>Set Hotel/Room Photo*</label>
+        <input type="file" name="photo">
+    </div>
+</div>

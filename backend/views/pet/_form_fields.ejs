@@ -1,0 +1,51 @@
+<!-- partial file! -->
+<div class="form-row">
+    <div class="form-item">
+        <label>Name*</label>
+        <input type="text" name="name" value="<%= pet.name %>">
+    </div>
+
+    <div class="form-item">
+        <label>Category*</label>
+        <select name="category">
+            <option <% if (pet.category==='Cat' ) { %> selected <% } %> value="Cat">Cat</option>
+            <option <% if (pet.category==='Dog' ) { %> selected <% } %> value="Dog">Dog</option>
+            <option <% if (pet.category==='Hamster' ) { %> selected <% } %> value="Hamster">Hamster</option>
+            <option <% if (pet.category==='Monkey' ) { %> selected <% } %> value="Monkey">Monkey</option>
+            <option <% if (pet.category==='Equine' ) { %> selected <% } %> value="Equine">Equine</option>
+        </select>
+    </div>
+
+    <div class="form-item">
+        <label>Race</label>
+        <input type="text" name="race" value="<%= pet.race %>">
+    </div>
+
+    <div class="form-item">
+        <label>Special Care</label>
+        <textarea name="specialCare"><%= pet.specialCare %></textarea>
+    </div>
+
+    <div class="form-item">
+        <label>Owner*</label>
+        <select name="owner">
+            <% owners.forEach(owner=> { %>
+                <% if(owner.id===pet.owner) { %>
+                    <option selected label="<%= owner.name %>" value="<%= owner.id %>"></option>
+                <% } else { %>
+                        <option label="<%= owner.name %>" value="<%= owner.id %>"></option>
+                <% } %>
+            <% }) %>
+        </select>
+    </div>
+
+    <div class="form-item">
+        <label>Photo*</label>
+        <input type="file" name="photo">
+    </div>
+
+    <div class="form-item">
+        <label>Vaccine Card</label>
+        <input type="text" name="vaccines">
+    </div>
+</div>

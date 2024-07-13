@@ -1,0 +1,11 @@
+<div class="form-row">
+    <div class="form-item">
+        <label>Change State</label>
+        <select name="state">
+            <option <% if (reservation.state==='Pending' ) { %> selected <% } %> value="Pending">Pending</option>
+            <option <% if (reservation.state==='Confirmed' ) { %> selected <% } %> value="Confirmed">Confirmed</option>
+            <option <% if (reservation.state==='Paid' ) { %> selected <% } %> value="Paid">Paid</option>
+            <option <% if (reservation.state==='Cancelled' ) { %> selected <% } %> value="Cancelled">Cancelled</option>
+        </select>
+    </div>
+</div>

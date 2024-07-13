@@ -1,0 +1,12 @@
+<ul>
+    <li *ngFor="let hotel of hotels">
+        <a routerLink="/hotel/{{hotel._id}}">
+            <img [src]="hotel.photoName" [alt]="hotel.name"/>
+            <div class="content">
+                <div class="name">
+                    {{hotel.name}}
+                </div>
+            </div>
+        </a>
+    </li>
+</ul>
