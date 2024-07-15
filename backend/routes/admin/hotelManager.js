@@ -129,7 +129,7 @@ router.put('/:id', upload.single('photo'), async (req, res) => {
     try {
         hotel = await Hotel.findById(req.params.id)
 
-        removePhoto(pet.photoName)
+        removePhoto(hotel.photoName)
 
         hotel.name = req.body.name
         hotel.address = req.body.address
@@ -138,7 +138,8 @@ router.put('/:id', upload.single('photo'), async (req, res) => {
 
         await hotel.save() 
         res.redirect(`/hotel/${hotel.id}`)
-    } catch {
+    } catch (err) {
+        console.log(err)
         if (hotel == null) {
             res.redirect('/')
         } else {

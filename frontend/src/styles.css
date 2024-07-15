@@ -1,1 +1,81 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  color: var(--color-main-font);
+  --color-background: rgb(255, 109, 109);
+  --color-border: rgb(255, 150, 150);
+  --color-background-light: bisque;
+  --color-main-font: navy;
+  --color-btn-primary-background: rgb(63, 207, 255);
+  --color-btn-primary-background-dark: rgb(0, 191, 255);
+  --color-btn-primary-text: white;
+  --color-btn-primary-text-dark: navy;
+  --color-btn-border: rgb(255, 255, 255);
+  --color-btn-danger-background: rgb(255, 56, 91);
+  --color-btn-danger-background-dark: rgb(255, 106, 136);
+  --color-btn-danger-text: white;
+  --color-btn-danger-text-dark: whitesmoke;
+}
+
+body {
+  background-color: var(--color-background-light);
+  align-items: center;
+}
+
+.container {
+  margin-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  /* max-width: 1200px; */
+  /* margin: auto; */
+  /* margin-bottom: 3rem;  */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 25%;
+  height: 100%;
+  background-color: var(--color-background);
+  border: 5px solid var(--color-border);
+  padding: 10px 0;
+  border-radius: 0.5rem;
+}
+
+/* .inner-container {
+  margin: 0 2rem;
+} */
+
+.page-header {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.btn {
+  border: 2px solid rgb(255, 234, 215);
+  border-radius: .5rem;
+  padding: .1rem .3rem;
+  font-size: 1rem;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-primary {
+  color: var(--color-btn-primary-text);
+  background-color: var(--color-btn-primary-background);
+}
+
+.btn-primary:hover {
+  color: var(--color-btn-primary-text-dark);
+  background-color: var(--color-btn-primary-background-dark) ;
+}
+
+.btn-danger {
+  color: var(--color-btn-danger-text);
+  background-color: var(--color-btn-danger-background);
+}
+
+.btn-danger:hover {
+  color: var(--color-btn-danger-text-dark);
+  background-color: var(--color-btn-danger-background-dark);
+}

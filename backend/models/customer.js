@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Pet = require('./pet')
+const Reservation = require('./reservation')
 
 const customerSchema = new mongoose.Schema({
     name: {
@@ -21,6 +22,11 @@ const customerSchema = new mongoose.Schema({
     address: {
         type: String,
         required: true
+    },
+    role: {
+        type: String,
+        required: true,
+        default: 'customer'
     }
 })
 

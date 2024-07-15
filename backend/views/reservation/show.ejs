@@ -1,7 +1,18 @@
-<h2>Reservation <%= reservation.code %></h2>
-<h3>State: <%= reservation.state %></h3>
+<div class="row">
+    <div class="form-container">
+        <h2>Reservation <%= reservation.code %></h2>
+        <h3>State: <%= reservation.state %></h3>
 
-<%- include('_info') %>
+        <ul>
+            <li>Location: <%= reservation.location.hotel.name + ', ' +  reservation.location.hotel.address + ', Room ' + reservation.location.room.roomNumber%></li>
+            <li>Begin: <%= reservation.dateBegin.toDateString() %></li>
+            <li>End: <%= reservation.dateEnd.toDateString() %></li>
+            <li>Pet: <%= reservation.pet.name %></li>
+            <li>Customer: <%= reservation.customer.name %></li>
+            <li>Daily: € <%= reservation.dailyPrice %></li>
+        </ul>
 
-<a href="/reservation/<%= reservation.id %>/edit">Edit</a>
-<%- include('../partials/deleteForm.ejs', { url: `/reservation/${reservation.id}` }) %>
+        <a href="/reservation/<%= reservation.id %>/edit">Edit</a>
+        <%- include('../partials/deleteForm.ejs', { url: `/reservation/${reservation.id}` }) %>
+    </div>
+</div>

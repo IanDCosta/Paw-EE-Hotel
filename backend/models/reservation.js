@@ -82,4 +82,20 @@ reservationSchema.pre(/^find/, function (next) {
   next();
 });
 
+reservationSchema.pre("deleteOne", async function (next) {
+  try {
+      const query = this.getFilter();
+      
+      const reservation = await this.model.findOne(query);
+      
+      if (reservation && reservation.state !== "Cancelled") {
+          next(new Error("This reservation is not cancelled and cannot be deleted."));
+      } else {
+          next();
+      }
+  } catch (err) {
+      next(err);
+  }
+});
+
 module.exports = mongoose.model("Reservation", reservationSchema);

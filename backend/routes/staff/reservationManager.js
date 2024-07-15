@@ -123,7 +123,7 @@ router.put("/:id", async (req, res) => {
     reservation.dateEnd = new Date(req.body.dateEnd)
     reservation.pet = req.body.pet */
 
-    reservation.code = req.body.code;
+    reservation.state = req.body.state;
 
     await reservation.save(); //will populate newReservation after saving reservation
     res.redirect(`/reservation/${reservation.id}`);
@@ -131,10 +131,7 @@ router.put("/:id", async (req, res) => {
     if (reservation == null) {
       res.redirect("/");
     } else {
-      res.render("reservation/edit", {
-        reservation: reservation,
-        errorMessage: "Error updating reservation",
-      });
+      renderEditPage(res, reservation, true);
     }
   }
 });
@@ -147,6 +144,7 @@ async function renderEditPage(res, reservation, hasError = false) {
     const params = {
       /* hotels: hotels,
       pets: pets, */
+      reservation: reservation,
       states: states
     }
     //const reservation = await Reservation.findById(req.params.id);

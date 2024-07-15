@@ -1,16 +1,22 @@
-<h2>Search Reservation</h2>
-<form action="/reservation" method="GET">
-    <labels>Name</labels>
+<div class="form-container">
+<form class="form-row" action="/reservation" method="GET">
+    <label>Search Reservation</label>
+    <div class="search-form">
     <input type="text" name="name" value="<%= searchOptions.name %>">
     <button type="submit">Search</button>
+</div>
 </form>
+</div>
 <br>
+<div class="row">
 <% reservation.forEach(reservation => { %>
-    <div>Reservation <%= reservation.code %></div>
-    <div>State: <%= reservation.state %></div>
-    <div>Customer: <%= reservation.customer.name %></div>
-    <a href="/reservation/<%= reservation.id %>">View</a>
-    <a href="/reservation/<%= reservation.id %>/edit">Edit</a>
-    <%- include('../partials/deleteForm.ejs', { url: `/reservation/${reservation.id}` }) %>
-    <br>
+    <div class="container">
+        <div>Reservation <%= reservation.code %></div>
+        <div>State: <%= reservation.state %></div>
+        <div>Customer: <%= reservation.customer.name %></div>
+        <a href="/reservation/<%= reservation.id %>">View</a>
+        <a href="/reservation/<%= reservation.id %>/edit">Edit</a>
+        <%- include('../partials/deleteForm.ejs', { url: `/reservation/${reservation.id}` }) %>
+    </div>
 <% }) %>
+</div>

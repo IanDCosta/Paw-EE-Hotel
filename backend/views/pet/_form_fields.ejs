@@ -8,11 +8,9 @@
     <div class="form-item">
         <label>Category*</label>
         <select name="category">
-            <option <% if (pet.category==='Cat' ) { %> selected <% } %> value="Cat">Cat</option>
-            <option <% if (pet.category==='Dog' ) { %> selected <% } %> value="Dog">Dog</option>
-            <option <% if (pet.category==='Hamster' ) { %> selected <% } %> value="Hamster">Hamster</option>
-            <option <% if (pet.category==='Monkey' ) { %> selected <% } %> value="Monkey">Monkey</option>
-            <option <% if (pet.category==='Equine' ) { %> selected <% } %> value="Equine">Equine</option>
+            <% categories.forEach(category=> { %>
+                <option label="<%= category %>" value="<%= category %>"></option>
+            <% }) %>
         </select>
     </div>
 

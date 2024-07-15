@@ -1,7 +1,25 @@
-<h2>Edit Reservation</h2>
-<form action="/reservation/<%= reservation.id %>?_method=PUT" method="POST">
-    <%- include('_info') %>
-    <%- include('_change_state') %>
-    <a href="/reservation/<%= reservation.id %>">Cancel</a>
-    <button type="submit">Update</button>
-</form>
+<div class="form-container">
+    <h2>Edit Reservation</h2>
+    <form action="/reservation/<%= reservation.id %>?_method=PUT" method="POST">
+        <ul>
+            <li>Location: <%= reservation.location.hotel.name + ', ' +  reservation.location.hotel.address + ', Room ' + reservation.location.room.roomNumber%></li>
+            <li>Begin: <%= reservation.dateBegin.toDateString() %></li>
+            <li>End: <%= reservation.dateEnd.toDateString() %></li>
+            <li>Pet: <%= reservation.pet.name %></li>
+            <li>Customer: <%= reservation.customer.name %></li>
+            <li>Daily: € <%= reservation.dailyPrice %></li>
+        </ul>
+        <div class="form-row">
+            <div class="form-item">
+                <label>Change State</label>
+                <select name="state">
+                    <% states.forEach(state => { %>
+                        <option <% if(reservation.state === state ) { %> selected <% } %> value="<%= state %>" ><%= state %></option>
+                    <% }) %>
+                </select>
+            </div>
+        </div>
+        <a href="/reservation/<%= reservation.id %>">Cancel</a>
+        <button class="btn btn-primary" type="submit">Update</button>
+    </form>
+</div>

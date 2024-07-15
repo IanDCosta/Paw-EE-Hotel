@@ -1,28 +1,35 @@
-<h2><%= hotel.name %></h2>
+<div class="row">
+    <div class="form-container">
+        <h2>
+            <%= hotel.name %>
+        </h2>
 
-<img height="150" width="150" src="<%= hotel.photoPath %>">
+        <img height="150" width="150" src="<%= hotel.photoPath %>">
 
-<ul>
-    <li>Address: <%= hotel.address %></li>
-    <li>Daily Price: € <%= hotel.dailyPrice %></li>
-    <li>Number of Rooms: <%= hotel.numberOfRooms %></li>
-</ul>
+        <ul>
+            <li>Address: <%= hotel.address %>
+            </li>
+            <li>Daily Price: € <%= hotel.dailyPrice %>
+            </li>
+            <li>Number of Rooms: <%= hotel.numberOfRooms %>
+            </li>
+        </ul>
 
+        <ul>
+            <% if (hotel.rooms && hotel.rooms.length> 0) { %>
+                <h2>Rooms:</h2>
+                <% hotel.rooms.forEach(room=> { %>
+                    <li>
+                        Room Number: <%= room.roomNumber %> <br>
+                        Vacant: <%= room.isVacant ? 'Yes' : 'No' %>
+                    </li>
+                <% }) %>
+            <% } else { %>
+                <li>No rooms available</li>
+            <% } %>
+        </ul>
 
-<h2>Rooms:</h2>
-<ul>
-    <% if (hotel.rooms && hotel.rooms.length > 0) { %>
-    <% hotel.rooms.forEach(room => { %>
-        <li> 
-            Room Number: <%= room.roomNumber %> <br>
-            Vacant: <%= room.isVacant ? 'Yes' : 'No' %>
-        </li>
-    <% }) %>
-    <% } else { %>
-        <li>No rooms available</li>
-    <% } %>
-</ul>
-
-
-<a href="/hotel/<%= hotel.id %>/edit">Edit</a>
-<%- include('../partials/deleteForm.ejs', { url: `/hotel/${hotel.id}` }) %>
+        <a href="/hotel/<%= hotel.id %>/edit">Edit</a>
+        <%- include('../partials/deleteForm.ejs', { url: `/hotel/${hotel.id}` }) %>
+    </div>
+</div>

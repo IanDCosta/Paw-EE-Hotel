@@ -1,28 +1,21 @@
 <header>
-    <div class="container">
-        <a routerLink="/" class="logo">
-            Animal Hotel
-        </a>
-        <nav>
-            <ul>
-                <li>
-                    <a routerLink="/login">Login</a>
-                </li>
-                <li class="menu-container">
-                    <a routerLink="/dashboard">Fulano</a>
-                    <div class="menu">
-                        <a routerLink="/profile">Profile</a>
-                        <a routerLink="/reservations">Reservations</a>
-                        <a routerLink="/pets">Your Pets</a>
-                        <a>Logout</a>
-                    </div>
-                </li>
-                <li>
-                    <a routerLink="/cart-page">
-                        Cart <span>3</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+    <nav>
+        <div class="header-title">
+            <a routerLink="/">Animal Hotel</a>
+        </div>
+        <div class="header-options">
+            <div class="header-option">
+                <a routerLink="/login">Login</a>
+            </div>
+            <div class="header-option">
+                <a routerLink="/profile">Profile</a>
+            </div>
+            <div class="header-option">
+                <a routerLink="/reservations">Your Reservations</a>
+            </div>
+            <div class="header-option">
+                <a routerLink="/pets">Your Pets</a>
+            </div>
+        </div>
+    </nav>
 </header>

@@ -1,28 +1,26 @@
-<h2>Search Pet</h2>
-<form action="/pet" method="GET">
-    <div>
-        <labels>Name</labels>
-        <input type="text" name="name" value="<%= searchOptions.name %>">
-        <button type="submit">Search</button>
-    </div>  
-    <div>
-        <labels>Category</labels>
-        <input type="text" name="category" value="<%= searchOptions.category %>">
-        <button type="submit">Search</button>
-    </div>
-</form>
-<br>
-<div>
+<div class="form-container">
+    <form class="form-row" action="/pet" method="GET">
+        <label>Search Pet</label>
+        <div class="search-form">
+            <input type="text" name="name" placeholder="Name" value="<%= searchOptions.name %>">
+        </div>  
+        <div class="search-form">
+            <input type="text" name="category" placeholder="Category" value="<%= searchOptions.category %>">
+        </div>
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+</div>
+
+<div class="row">
     <% pet.forEach(pet => { %>
-        <img height="150" width="150" src="<%= pet.photoPath %>">
-        <div><%= pet.name %></div>
-        <div><%= pet.category %></div>
-        <% if (pet.race != null) {%>
-            <div><%= pet.race %></div>
-        <% } %>
-        <div><%= pet.owner.name %></div>
-        <a href="/pet/<%= pet.id %>">View</a>
-        <a href="/pet/<%= pet.id %>/edit">Edit</a>
-        <%- include('../partials/deleteForm.ejs', { url: `/pet/${pet.id}` }) %>
+        <div class="container">
+            <img height="150" width="150" src="<%= pet.photoPath %>">
+            <div><%= pet.name %></div>
+            <div><%= pet.category %></div>
+            <div><%= pet.owner.name %></div>
+            <a href="/pet/<%= pet.id %>">View</a>
+            <a href="/pet/<%= pet.id %>/edit">Edit</a>
+            <%- include('../partials/deleteForm.ejs', { url: `/pet/${pet.id}` }) %>
+        </div>
     <% }) %>
 </div>

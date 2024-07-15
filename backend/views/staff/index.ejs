@@ -1,14 +1,25 @@
-<h2>Search Staff</h2>
-<form action="/staff" method="GET">
-    <labels>Name</labels>
-    <input type="text" name="name" value="<%= searchOptions.name %>">
-    <button type="submit">Search</button>
-</form>
-<br>
-<% staff.forEach(staff => { %>
-    <div><%= staff.name %></div>
-    <div><%= staff.email %></div>
-    <a href="/staff/<%= staff.id %>">View</a>
-    <a href="/staff/<%= staff.id %>/edit">Edit</a>
-    <%- include('../partials/deleteForm.ejs', { url: `/staff/${staff.id}` }) %>
-<% }) %>
+<div class="form-container">
+    <form class="form-row" action="/staff" method="GET">
+        <label>Search Staff</label>
+        <div class="search-form">
+            <input type="text" name="name" placeholder="Staff Name" value="<%= searchOptions.name %>">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <% staff.forEach(staff=> { %>
+        <div class="container">
+            <div>
+                <%= staff.name %>
+            </div>
+            <div>
+                <%= staff.email %>
+            </div>
+            <a href="/staff/<%= staff.id %>">View</a>
+            <a href="/staff/<%= staff.id %>/edit">Edit</a>
+            <%- include('../partials/deleteForm.ejs', { url: `/staff/${staff.id}` }) %>
+        </div>
+    <% }) %>
+</div>

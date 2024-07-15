@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 
 //set routes
+/* const authRouter = require('./routes/auth') */
 const indexRouter = require('./routes/index')
 const adminManagerRouter = require('./routes/admin/accounts_management/adminManager')
 const staffManagerRouter = require('./routes/admin/accounts_management/staffManager')
@@ -15,6 +16,7 @@ const customerManagerRouter = require('./routes/admin/accounts_management/custom
 const petManagerRouter = require('./routes/admin/petManager')
 const hotelManagerRouter = require('./routes/admin/hotelManager')
 const reservationManagerRouter = require('./routes/staff/reservationManager')
+
 
 //use imports
 app.set('view engine', 'ejs') //set ejs as view engine
@@ -27,6 +29,7 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }))
 
 //use routes
 app.use('/', indexRouter) //app root
+/* app.use('/login', authRouter) */
 app.use('/admin', adminManagerRouter)
 app.use('/staff', staffManagerRouter)
 app.use('/customer', customerManagerRouter)

@@ -1,0 +1,28 @@
+<div class="form-container">
+    <h2>Register</h2>
+    <form action="/register" method="POST">
+        <div class="form-row">
+            <div class="form-item">
+                <label>Name:</label>
+                <input type="text" name="name" placeholder="Name">
+            </div>
+            <div class="form-item">
+                <label>Email:</label>
+                <input type="email" name="email" placeholder="email@email.com">
+            </div>
+            <div class="form-item">
+                <label>Password:</label>
+                <input type="password" name="password" placeholder="Password">
+            </div>
+            <div class="form-item">
+                <label>Role:</label>
+                <select name="role">
+                    <option label="Admin" value="Admin"></option>
+                    <option label="Staff" value="Staff"></option>
+                </select>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+    </form>
+    <a href="/login">Login</a>
+</div>

@@ -102,8 +102,8 @@ router.get('/:id', async (req, res) =>{
 //edit pet
 router.get('/:id/edit', async (req, res) => {
     try{
-        renderEditPage(res, await Pet.findById(req.params.id), false)
-        /* res.render('pet/edit', { 
+        renderEditPage(res, await Pet.findById(req.params.id))
+        /* res.render('pet/edit', {
             pet: pet,
             categories: categories,
             owners: owners,
@@ -121,7 +121,7 @@ router.put('/:id', upload.single('photo'), async (req, res) => {
     try {
         pet = await Pet.findById(req.params.id)
 
-        //const photoToRemove = pet.photoName
+        removePhoto(pet.photoName)
 
         pet.name = req.body.name
         pet.category = req.body.category
@@ -131,9 +131,8 @@ router.put('/:id', upload.single('photo'), async (req, res) => {
         pet.photoName = filename
         pet.vaccines = req.body.vaccines
 
-        //removePhoto(photoToRemove)
         await pet.save() 
-        res.redirect(`pet/${pet.id}`)
+        res.redirect(`/pet/${pet.id}`)
     } catch (err) {
         console.log(err)
         if (pet.photoName != null){

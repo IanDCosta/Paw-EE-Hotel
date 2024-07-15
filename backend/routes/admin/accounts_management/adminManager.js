@@ -10,6 +10,7 @@ router.get('/', async (req, res) => {
     }
     try {
         const admin = await Admin.find(searchOptions)
+        
         res.render('admin/index', { 
             admin: admin, 
             searchOptions: req.query
