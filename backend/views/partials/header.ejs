@@ -2,64 +2,58 @@
     <nav>
         <div class="header-title">
             <a href="/">
-                <img class="main" height="100" width="100" src="/assets/monkey.png">
-                Animal Hotel
+                <img class="main" height="125" width="125" src="/assets/niceGuy.png">
+                Nice Guy Hotel™
             </a>
         </div>
         <div class="header-options">
-            <% if(locals.user != null){ %>
-                <% if(locals.user.role == 'admin') {%>
-                    <div class="header-option">
-                        <a href="/admin">Admins</a>
-                        <div class="dropdown">
-                            <a href="/admin/new">New Admin</a>
-                        </div>
-                    </div>
-                    <div class="header-option">
-                        <a href="/staff">Staffs</a>
-                        <div class="dropdown">
-                            <a href="/staff/new">New Staff</a>
-                        </div>
-                    </div>
-                    <div class="header-option">
-                        <a href="/customer">Customer</a>
-                        <div class="dropdown">
-                            <a href="/customer/new">New Customer</a>
-                        </div>
-                    </div>
-                    <div class="header-option">
-                        <a href="/pet">Pets</a>
-                        <div class="dropdown">
-                            <a href="/pet/new">New Pet</a>
-                        </div>
-                    </div>
-                    <div class="header-option">
-                        <a href="/hotel">Hotels</a>
-                        <div class="dropdown">
-                            <a href="/hotel/new">New Hotel</a>
-                        </div>
-                    </div>
-                <% } else if(locals.user.role == 'staff') { %>
-                    <div class="header-option">
-                        <a href="/reservation">Reservations</a>
-                        <div class="dropdown">
-                            <a href="/reservation/new">New Reservation</a>
-                        </div>
-                    </div>
-                <% } %>
+
             <div class="header-option">
-                <form action="/logout?_method=DELETE" method="POST">
-                    <button class="btn btn-danger" type="submit">Log Out</button>
-                </form>
+                <a href="/admin/manage-accounts/admin">Admins</a>
+                <div class="dropdown">
+                    <a href="/admin/manage-accounts/admin/new">New Admin</a>
+                </div>
             </div>
-            <% } else { %>
+
+            <div class="header-option">
+                <a href="/admin/manage-accounts/staff">Staffs</a>
+                <div class="dropdown">
+                    <a href="/admin/manage-accounts/staff/new">New Staff</a>
+                </div>
+            </div>
+
+            <div class="header-option">
+                <a href="/admin/manage-accounts/customer">Customer</a>
+                <div class="dropdown">
+                    <a href="/admin/manage-accounts/customer/new">New Customer</a>
+                </div>
+            </div>
+
+            <div class="header-option">
+                <a href="/admin/manage-rooms">Rooms</a>
+                <div class="dropdown">
+                    <a href="/admin/manage-rooms/new">New Room</a>
+                </div>
+            </div>
+
+            <div class="header-option">
+                <a href="/staff/manage-reservations">Reservations</a>
+                <div class="dropdown">
+                    <a href="/staff/manage-reservations/new">New Reservation</a>
+                </div>
+            </div>
+
             <div class="header-option">
                 <a href="/login">Login</a>
             </div>
             <div class="header-option">
-                <a href="/register">Register</a>
+                <a href="/login/register">Register</a>
             </div>
-            <% } %>
+            <div class="header-option">
+                <form action="/login/logout?_method=DELETE" method="POST">
+                    <button class="btn btn-danger" type="submit">Log Out</button>
+                </form>
+            </div>
         </div>
     </nav>
 </header>

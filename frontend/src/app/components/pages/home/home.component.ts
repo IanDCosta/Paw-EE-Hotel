@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Hotel } from '../../../shared/models/hotel';
-import { HotelService } from '../../../services/hotel.service';
+import { Room } from '../../../shared/models/room';
+import { RoomService } from '../../../services/room.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -10,16 +10,16 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class HomeComponent {
   
-  hotels: Hotel[] = [];
+  rooms: Room[] = [];
 
-  constructor(private hotelService: HotelService, activatedRoute: ActivatedRoute) {
+  constructor(private roomService: RoomService, activatedRoute: ActivatedRoute) {
     activatedRoute.params.subscribe((params) => {
       if (params.searchTerm) {
-        this.hotels = this.hotelService.getAllHotelsBySearchTerm(params.searchTerm);
+        this.rooms = this.roomService.getAllRoomsBySearchTerm(params.searchTerm);
       } else {
-        this.hotels = hotelService.getAll();
+        this.rooms = roomService.getAll();
       }
     });
-    this.hotels = hotelService.getAll();
+    this.rooms = roomService.getAll();
   }
 }

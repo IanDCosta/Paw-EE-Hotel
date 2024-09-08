@@ -1,0 +1,35 @@
+<!-- partial file! -->
+<div class="form-row">
+    <div class="form-item">
+        <label>Name</label>
+        <input type="text" name="name" value="<%= customer.name %>">
+    </div>
+
+    <div class="form-item">
+        <label>Email</label>
+        <input type="email" name="email" value="<%= customer.email %>">
+    </div>
+
+    <div class="form-item">
+        <label>Password</label>
+        <input type="password" name="password" value="<%= customer.password %>">
+    </div>
+
+    <div class="form-item">
+        <label>Contact</label>
+        <input type="text" name="contact" value="<%= customer.contact %>">
+    </div class="form-item">
+
+    <div class="form-item">
+        <label>Address</label>
+        <input type="text" name="address" value="<%= customer.address %>">
+    </div>
+
+    <div class="form-item">
+        <label>State</label>
+        <select name="state">
+            <option label="Active" value="Active"></option>
+            <option label="Inactive" value="Inactive"></option>
+        </select>
+    </div>
+</div>

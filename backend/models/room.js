@@ -1,19 +1,39 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
+const path = require("path");
+const photoBasePath = "uploads/hotelPhotos";
 
 const roomSchema = new mongoose.Schema({
-    roomNumber: {
-        type: String,
-        required: true
-    },
-    isVacant: {
-        type: Boolean,
-        default: true
-    },
-    hotel: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "Hotel"
-    }
-})
+  roomNumber: {
+    type: String,
+    required: true,
+  },
+  typology: {
+    type: String,
+    required: false
+  },
+  dailyPrice: {
+    type: Number,
+    required: true,
+  },
+  isVacant: {
+    type: Boolean,
+    default: true,
+  },
+  capacity: {
+    type: Number,
+  },
+  photoName: {
+    type: String,
+    required: true,
+  },
+});
 
-module.exports = mongoose.model('Room', roomSchema)
+roomSchema.virtual("photoPath").get(function () {
+    //not arrow function to use "this"
+    if (this.photoName != null) {
+      return path.join("/", photoBasePath, this.photoName);
+    }
+  });
+
+module.exports = mongoose.model("Room", roomSchema);
+module.exports.photoBasePath = photoBasePath;

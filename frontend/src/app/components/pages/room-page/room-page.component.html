@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="form-container">
+        <h2>
+            Room Number: {{room.roomNumber}}
+        </h2>
+
+        <img height="250" width="250" src="{{room.photoName}}" alt="{{room.roomNumber}}" />
+
+        <ul>
+            <li>Typology: {{room.typology}}
+            </li>
+            <li>Daily Price: {{room.dailyPrice | currency}}
+            </li>
+            <li>Capacity: {{room.capacity}}
+            </li>
+            <li>Available: {{room.isVacant}}
+            </li>
+        </ul>
+    </div>
+</div>

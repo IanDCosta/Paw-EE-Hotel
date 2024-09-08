@@ -1,0 +1,22 @@
+<div class="form-container">
+<form class="form-row" action="/reservation" method="GET">
+    <label>Search Reservation</label>
+    <div class="search-form">
+    <input type="text" name="code" value="<%= searchOptions.code %>">
+    <button type="submit">Search</button>
+</div>
+</form>
+</div>
+<br>
+<div class="row">
+<% reservations.forEach(reservation => { %>
+    <div class="container">
+        <div>Reservation <%= reservation.code %></div>
+        <div>State: <%= reservation.state %></div>
+        <div>Customer: <%= reservation.customer.name %></div>
+        <a href="/staff/manage-reservations/<%= reservation.id %>">View</a>
+        <a href="/staff/manage-reservations/<%= reservation.id %>/edit">Edit</a>
+        <%- include('../../partials/deleteForm.ejs', { url: `/staff/manage-reservations/${reservation.id}` }) %>
+    </div>
+<% }) %>
+</div>

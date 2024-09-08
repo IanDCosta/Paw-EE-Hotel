@@ -1,0 +1,35 @@
+<div class="form-container">
+    <form class="form-row" action="/room" method="GET">
+    <label>Search Hotel</label>
+    <div class="search-form">
+        <input type="number" name="roomNumber" placeholder="Room Number" value="<%= searchOptions.roomNumber %>">
+    </div>
+    <div class="search-form">
+        <input type="number" name="dailyPriceMin" placeholder="Min Price" value="<%= searchOptions.dailyPriceMin %>">
+    </div>
+    <div class="search-form">
+        <input type="number" name="dailyPriceMax" placeholder="Max Price" value="<%= searchOptions.dailyPriceMax %>">
+    </div>
+    <div class="search-form">
+        <input type="number" name="capacity" placeholder="Room Cpacity" value="<%= searchOptions.capacity %>">
+    </div>
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+</div>
+
+<br>
+
+<div class="row">
+<% room.forEach(room => { %>
+    <div class="container">
+    <img height="150" width="150" src="<%= room.photoPath %>">
+    <div><%= room.roomNumber %></div>
+    <div>€ <%= room.dailyPrice %></div>
+    <div><%= room.capacity %></div>
+    <a href="/admin/manage-rooms/<%= room.id %>">View</a>
+    <a href="/admin/manage-rooms/<%= room.id %>/edit">Edit</a>
+    <%- include('../../partials/deleteForm.ejs', { url: `/admin/manage-rooms/${room.id}` }) %>
+</div>
+    
+<% }) %>
+</div>

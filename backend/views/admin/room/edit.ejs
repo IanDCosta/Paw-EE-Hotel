@@ -1,0 +1,8 @@
+<div class="form-container">
+<h2>Edit Hotel</h2>
+<form action="/admin/manage-rooms/<%= room.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+    <%- include('_form_fields') %>
+    <a href="/admin/manage-rooms/<%= room.id %>">Cancel</a>
+    <button class="btn btn-primary" type="submit">Update</button>
+</form>
+</div>

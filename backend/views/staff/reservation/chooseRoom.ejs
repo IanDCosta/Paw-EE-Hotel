@@ -1,0 +1,23 @@
+<div class="title">
+    <h2>Choose a Room:</h2>
+</div>
+
+<div class="row">
+    <% if(room.length == 0){ %>
+        <div class="row">There are no available rooms at the moment.</div>
+        <%}else{%>
+            <% room.forEach(room => { %>
+                <div class="container">
+                        <form action="/staff/manage-reservations/new/choose" method="POST">
+                            <img height="150" width="150" src="<%= room.photoPath %>">
+                            <div>Room Number <%= room.roomNumber %></div>
+                            <div>Daily Price: € <%= room.dailyPrice %></div>
+                            <div>Capacity: <%= room.capacity %></div>
+                            <div>Available: <%= (room.isVacant ? "Yes" : "No") %></div>
+                            <input type="hidden" name="roomId" value="<%= room._id %>">
+                            <button class="btn btn-primary" type="submit">Select</button>
+                    </form>
+                    </div>
+            <% }) %>
+        <%}%>
+    </div>

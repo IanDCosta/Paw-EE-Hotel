@@ -1,22 +1,23 @@
 <app-search></app-search>
-<ul>
-    <li *ngFor="let hotel of hotels">
-        <a routerLink="/hotel/{{hotel._id}}">
-            <img src="{{hotel.photoName}}" [alt]="hotel.name"/>
-            <div class="content">
-                <div class="name">
-                    {{hotel.name}}
-                </div>
-                <div class="address">
-                    {{hotel.address}}
-                </div>
-                <div class="dailyPrice">
-                    {{hotel.dailyPrice | currency}}
-                </div>
-                <div class="numberOfRooms">
-                    {{hotel.numberOfRooms}}
-                </div>
+<div class="row">
+    <div class="container" *ngFor="let room of rooms">
+        <a routerLink="/room/{{room._id}}">
+            <img height="200" width="200" src="{{room.photoName}}" [alt]="room.roomNumber" />
+            <div class="number">
+                Room Number: {{room.roomNumber}}
+            </div>
+            <div class="typology">
+                Typology: {{room.typology}}
+            </div>
+            <div class="dailyPrice">
+                Daily Price: {{room.dailyPrice | currency}}
+            </div>
+            <div class="capacity">
+                Capacity: {{room.capacity}}
+            </div>
+            <div class="isVacant">
+                Available: {{room.isVacant}}
             </div>
         </a>
-    </li>
-</ul>
+    </div>
+</div>

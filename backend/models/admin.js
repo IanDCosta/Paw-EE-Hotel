@@ -18,6 +18,13 @@ const adminSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: 'admin'
+    },
+    state:{
+        type: String,
+    enum: {
+      values: ["Active", "Inactive"],
+    },
+    default: "Active",
     }
 })
 

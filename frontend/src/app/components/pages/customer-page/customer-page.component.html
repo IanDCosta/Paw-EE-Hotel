@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="form-container">
+        <h2>
+            Hello {{customer.name}}!
+        </h2>   
+        <ul>
+            <li>
+                Your Email: {{customer.email}}
+            </li>
+            <li>
+                Your Contact: {{customer.contact}}
+            </li>
+            <li>
+                Your Address: {{customer.address}}
+            </li>
+            <li>
+                Account State: {{customer.state}}
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- fazer tipo "get reservations from customer x"
+<div class="row"></div>
+    <div class="container" *ngFor="let room of rooms">
+        <a routerLink="/room/{{room._id}}">
+            <img height="200" width="200" src="{{room.photoName}}" [alt]="room.roomNumber" />
+            <div class="number">
+                Room Number: {{room.roomNumber}}
+            </div>
+            <div class="typology">
+                Typology: {{room.typology}}
+            </div>
+            <div class="dailyPrice">
+                Daily Price: {{room.dailyPrice | currency}}
+            </div>
+            <div class="capacity">
+                Capacity: {{room.capacity}}
+            </div>
+            <div class="isVacant">
+                Available: {{room.isVacant}}
+            </div>
+        </a>
+    </div>
+</div> -->

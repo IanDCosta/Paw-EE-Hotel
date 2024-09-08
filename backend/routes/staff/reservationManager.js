@@ -1,182 +1,205 @@
 const express = require("express");
 const router = express.Router(); //usa router do express
 const Reservation = require("../../models/reservation");
-const Hotel = require("../../models/hotel");
-const Pet = require("../../models/pet");
+const Customer = require("../../models/customer");
 const Room = require("../../models/room");
+
+const reservationController = require('../../controllers/staff/reservationManager')
 
 // rota all reservations
 router.get("/", async (req, res) => {
-  let searchOptions = {};
-  if (req.query.name != null && req.query.name !== "") {
-    searchOptions.name = new RegExp(req.query.name, "i");
+  reservationController.getReservations(req,res)
+  /* let searchOptions = {};
+  if (req.query.code != null && req.query.code !== "") {
+    searchOptions.code = new RegExp(req.query.code, "i");
   }
   try {
-    const reservation = await Reservation.find(searchOptions);
-    res.render("reservation/index", {
-      reservation: reservation,
+    const reservations = await Reservation.find({});
+    res.render("staff/reservation/index", {
+      reservations: reservations,
       searchOptions: req.query,
     });
   } catch {
     res.redirect("/");
-  }
+  } */
 });
 
 // rota new reservation, display form, must be above the /:id ones
-router.get("/new", (req, res) => {
-  renderNewPage(res, new Reservation());
+router.get("/new", async (req, res) => {
+  reservationController.newReservationPage(req,res)
+  /* try {
+    const vacantRooms = await Room.find({ isVacant: true });
+    res.render("staff/reservation/chooseRoom", { room: vacantRooms });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/reservation");
+  } */
 });
+
+router.post("/new/choose", async (req, res) => {
+  reservationController.newReservationChoseRoom(req,res)
+  /* try {
+    const reservation = new Reservation(); 
+    const customers = await Customer.find({});
+
+    renderNewPage(res, req.body.roomId, customers, reservation);
+  } catch (err) {
+    console.log(err);
+    res.redirect("/reservation");
+  } */
+});
+
+/* async function renderNewPage(res, roomId, customers, reservation, hasError = false) {
+  try {
+    const room = await Room.findById(roomId);
+    
+    const params = {
+      room: room, // The selected room
+      customers: customers,
+      reservation: reservation, // The new reservation object
+    };
+    if (hasError) params.errorMessage = "Error Creating Reservation";
+    res.render("staff/reservation/new", params);
+  } catch (err) {
+    console.log(err);
+    res.redirect("/reservation");
+  }
+} */
 
 // cria o reservation
 router.post("/", async (req, res) => {
-  //console.log('daq ' + req.body.location + ' ate ' + ' aq')
-
-  const reservation = new Reservation({
+  reservationController.newReservation(req,res)
+  /* const reservation = new Reservation({
     code: req.body.code,
-    location: {
-      hotel: req.body.location,
-    },
     dateBegin: new Date(req.body.dateBegin),
-    dateEnd: new Date(req.body.dateEnd),
-    pet: req.body.pet,
+    dateEnd: new Date(req.body.dateEnd)
   });
 
   try {
-    const pet = await Pet.findById(req.body.pet);
-    const hotel = await Hotel.findById(req.body.location);
-    //let room = hotel.rooms.find(room => room.isVacant === true)
-    const room = await Room.findOneAndUpdate(
-      { hotel: hotel.id, isVacant: true },
-      { isVacant: false }
-    );
-    room.save();
+    const customerId = req.body.customer;
+    const customer = await Customer.findById(customerId);
+    
+    reservation.customer = customer;
 
-    reservation.location.room = room;
-    reservation.dailyPrice = hotel.dailyPrice;
-    reservation.customer = pet.owner;
+    const roomId = req.body.roomId;
+    const room = await Room.findById(roomId);
 
-    const newReservation = await reservation.save(); //will populate newReservation after saving reservation
-    res.redirect(`/reservation/${newReservation.id}`);
+    reservation.room = room;
+    reservation.dailyPrice = room.dailyPrice;
+
+    console.log(req.body.occupants);
+
+    let occupants = [];
+    for(let i = 0; i < room.capacity; i++){
+      occupants.push({
+        name: req.body.occupants[i].name,
+        age: req.body.occupants[i].age
+      })
+    }
+
+    reservation.occupants = occupants;
+
+    // Save the new reservation
+    const newReservation = await reservation.save();
+
+    // Update the room's vacancy status after the reservation is made
+    await Room.findByIdAndUpdate(roomId, { isVacant: false });
+
+    // Redirect to the reservation details page
+    res.redirect(`/staff/manage-reservations/${newReservation._id}`);
   } catch (err) {
-    renderNewPage(res, reservation, true);
     console.log(err);
-  }
+    renderNewPage(
+      res,
+      req.body.roomId,
+      await Customer.find({}),
+      reservation,
+      true
+    ); // Pass the reservation object for potential error messages
+  } */
 });
-
-async function renderNewPage(res, reservation, hasError = false) {
-  try {
-    const hotels = await Hotel.findHotelsWithVacantRooms({});
-    //const hotels = await Hotel.find({})
-    const pets = await Pet.find({});
-    console.log(hotels);
-    const params = {
-      hotels: hotels,
-      pets: pets,
-      reservation: reservation,
-    };
-    if (hasError) params.errorMessage = "Error Creating Reservation";
-    res.render("reservation/new", params);
-  } catch {
-    res.redirect("/reservation");
-  }
-}
 
 //see reservation
 router.get("/:id", async (req, res) => {
-  try {
+  reservationController.viewReservation(req,res)
+  /* try {
     const reservation = await Reservation.findById(req.params.id);
-    res.render("reservation/show", {
+    res.render("staff/reservation/show", {
       reservation: reservation,
     });
   } catch (err) {
     console.log(err);
     res.redirect("/");
-  }
+  } */
 });
 
 //edit reservation
 router.get("/:id/edit", async (req, res) => {
-  try {
+  reservationController.editReservationPage(req,res)
+  /*   try {
     renderEditPage(res, await Reservation.findById(req.params.id), false);
-    /* 
-    res.render("reservation/edit", { 
-      reservation: reservation, 
-      hotels: hotels,
-      pets: pets
-    }); */
   } catch {
     res.redirect("/reservation");
-  }
+  } */
 });
 
 //reservation edited
 router.put("/:id", async (req, res) => {
-  let reservation;
+  reservationController.editReservation(req,res)
+  /* let reservation;
   try {
     reservation = await Reservation.findById(req.params.id);
-
-    /* reservation.code = req.body.code
-    reservation.location = {
-      hotel: req.body.location
-    }
-    reservation.dateBegin = new Date(req.body.dateBegin)
-    reservation.dateEnd = new Date(req.body.dateEnd)
-    reservation.pet = req.body.pet */
 
     reservation.state = req.body.state;
 
     await reservation.save(); //will populate newReservation after saving reservation
-    res.redirect(`/reservation/${reservation.id}`);
+    res.redirect(`${reservation.id}`);
   } catch {
     if (reservation == null) {
       res.redirect("/");
     } else {
       renderEditPage(res, reservation, true);
     }
-  }
+  } */
 });
 
-async function renderEditPage(res, reservation, hasError = false) {
+/* async function renderEditPage(res, reservation, hasError = false) {
   try {
-    /* const hotels = await Hotel.findHotelsWithVacantRooms({});
-    const pets = await Pet.find({}); */
-    const states = ["Pending", "Confirmed", "Paid", "Cancelled"]
+    const states = ["Pending", "Confirmed", "Paid", "Cancelled"];
     const params = {
-      /* hotels: hotels,
-      pets: pets, */
       reservation: reservation,
-      states: states
-    }
-    //const reservation = await Reservation.findById(req.params.id);
+      states: states,
+    };
 
-    if(hasError) params.errorMessage = 'Error Updating Reservation'
-    res.render('reservation/edit', params)
+    if (hasError) params.errorMessage = "Error Updating Reservation";
+    res.render("staff/reservation/edit", params);
   } catch {
-    res.redirect('/reservation')
+    res.redirect("/reservation");
   }
-}
+} */
 
 //delete reservation
 router.delete("/:id", async (req, res) => {
-  let reservation;
+  reservationController.deleteReservation(req,res)
+  /* let reservation;
   try {
     reservation = await Reservation.findById(req.params.id);
     //const room = await Room.findOneAndUpdate({ id: reservation.location.room.id },{ isVacant: true })
-    const room = await Room.findById(reservation.location.room.id);
+    const room = await Room.findById(reservation.room.id);
     room.isVacant = true;
     //console.log(room + " " + reservation.location.room.id);
     room.save();
 
     await reservation.deleteOne(); //will remove reservation
-    res.redirect("/reservation");
+    res.redirect("/");
   } catch (err) {
+    console.log(err);
     if (reservation == null) {
       res.redirect("/");
     } else {
-      res.redirect(`/reservation/${reservation.id}`);
+      res.redirect(`${reservation.id}`);
     }
-    console.log(err);
-  }
+  } */
 });
 
 module.exports = router;

@@ -1,4 +1,6 @@
-<div class="search">
-    <input class="search-box" #s type="text" placeholder="Search Hotel" (keyup.enter)="search(s.value)" value="{{searchTerm}}"/>
-    <button class="btn btn-primary" (click)="search(s.value)">Search</button>
+<div class="form-container">
+        <div class="search-form">
+            <input #s type="text" placeholder="Search Room by Typology" (keyup.enter)="search(s.value)" value="{{searchTerm}}" />
+            <button class="btn btn-primary" (click)="search(s.value)">Search</button>
+        </div>
 </div>

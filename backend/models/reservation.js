@@ -8,17 +8,10 @@ const reservationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  location: {
-    hotel: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "Hotel",
-    },
-    room: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: "Room",
-    },
+  room: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Room",
   },
   dateBegin: {
     type: Date,
@@ -28,11 +21,18 @@ const reservationSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  pet: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: "Pet",
-  },
+  occupants: [
+    {
+      name: {
+        type: String,
+        required: false, //!
+      },
+      age: {
+        type: Number,
+        required: false, //!
+      },
+    },
+  ],
   customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Customer",
@@ -51,50 +51,48 @@ const reservationSchema = new mongoose.Schema({
 
 reservationSchema.pre(/^find/, function (next) {
   this.populate({
-    path: "pet",
-    select: { owner: 1, name: 1 },
+    path: 'customer',
+    select: 'name', // Only populate the 'name' field from the customer
+  })
+  .populate({
+    path: 'room',
+    select: {roomNumber: 1, photoName: 1}, // Optionally populate the room if needed
   });
+  
   next();
 });
 
-reservationSchema.pre(/^find/, function (next) {
+/* reservationSchema.pre(/^find/, function (next) {
   this.populate({
     path: "customer",
-    select: "name",
+    select: { name: 1 },
   });
   next();
 });
 
 reservationSchema.pre(/^find/, function (next) {
   this.populate({
-    path: "location",
-    populate: [
-      {
-        path: "hotel",
-        select: { name: 1, address: 1 },
-      },
-      {
-        path: "room",
-        select: { roomNumber: 1 }
-      },
-    ],
+    path: "room",
+    select: { roomNumber: 1 },
   });
   next();
 });
-
+ */
 reservationSchema.pre("deleteOne", async function (next) {
   try {
-      const query = this.getFilter();
-      
-      const reservation = await this.model.findOne(query);
-      
-      if (reservation && reservation.state !== "Cancelled") {
-          next(new Error("This reservation is not cancelled and cannot be deleted."));
-      } else {
-          next();
-      }
+    const query = this.getFilter();
+
+    const reservation = await this.model.findOne(query);
+
+    if (reservation && reservation.state !== "Cancelled") {
+      next(
+        new Error("This reservation is not cancelled thus cannot be deleted.")
+      );
+    } else {
+      next();
+    }
   } catch (err) {
-      next(err);
+    next(err);
   }
 });
 

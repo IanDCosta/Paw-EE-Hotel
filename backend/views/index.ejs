@@ -1,20 +1,9 @@
 <div class="title">
-    <h2>Pending Reservations</h2>
+    <h2>Welcome to Nice Guy Hotel™!</h2>
 </div>
 <div class="row">
-<% if(reservations.length == 0) { %>
-    <h3>There are no pending reservations at this moment</h3>
-<% } %>
-<% reservations.forEach(reservation => { %>
-    <div class="container">
-    <% if(reservation.state == "Pending"){ %>
-        <div>Reservation <%= reservation.code %></div>
-        <div>State: <%= reservation.state %></div>
-        <div>Customer: <%= reservation.customer.name %></div>
-        <a href="/reservation/<%= reservation.id %>">Details</a>
-        <a href="/reservation/<%= reservation.id %>/edit">Edit</a>
-        <%- include('./partials/deleteForm.ejs', { url: `/reservation/${reservation.id}` }) %>
-    </div>
-    <% } %>
-<% }) %> 
+    <h3>The best hotel, ran only by very nice guys!</h3>
+</div>
+<div class="row">
+    <img class="main" height="400" width="400" src="/assets/niceGuy2.png">
 </div>
