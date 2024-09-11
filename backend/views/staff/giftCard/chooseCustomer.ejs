@@ -1,0 +1,21 @@
+<div class="title">
+    <h2>Choose the Customer to assign the Gift Card:</h2>
+</div>
+
+<div class="row">
+    <% if (customers.length == 0) { %>
+        <div class="row">There are no customers available right now.</div>
+    <% } else { %>
+        <% customers.forEach(customer => { %>
+            <div class="container">
+                <form action="/staff/manage-giftCards/<%= giftCardId %>/assign" method="POST">
+                    <div>Name: <%= customer.name %></div>
+                    <div>Email: <%= customer.email %></div>
+                    <input type="hidden" name="customerId" value="<%= customer._id %>">
+                    <input type="hidden" name="giftCardId" value="<%= giftCardId %>">
+                    <button class="btn btn-primary" type="submit">Assign</button>
+                </form>
+            </div>
+        <% }) %>
+    <% } %>
+</div>

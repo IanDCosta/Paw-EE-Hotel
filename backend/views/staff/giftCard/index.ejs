@@ -1,0 +1,25 @@
+<div class="form-container">
+<form class="form-row" action="/staff/manage-giftCards" method="GET">
+    <label>Search GiftCard</label>
+    <div class="search-form">
+        <input type="text" name="description" placeholder="GifCard Description" value="<%= searchOptions.description %>">
+        <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+    <div class="search-form">
+        <input type="number" name="discount" placeholder="GifCard Discount" value="<%= searchOptions.discount %>">
+        <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+</form>
+</div>
+<br>
+<div class="row">
+<% giftCards.forEach(giftCard => { %>
+    <div class="container">
+        <div>Description: <%= giftCard.description %></div>
+        <div>Discount: <%= giftCard.discount %>%</div>
+        <a href="/staff/manage-giftCards/<%= giftCard.id %>">View</a>
+        <a href="/staff/manage-giftCards/<%= giftCard.id %>/edit">Edit</a>
+        <%- include('../../partials/deleteForm.ejs', { url: `/staff/manage-giftCards/${giftCard.id}` }) %>
+    </div>
+<% }) %>
+</div>

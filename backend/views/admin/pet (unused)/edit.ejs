@@ -1,8 +1,0 @@
-<div class="form-container">
-<h2>Edit Pet</h2>
-<form action="/pet/<%= pet.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-    <%- include('_form_fields') %>
-    <a href="/pet/<%= pet.id %>">Cancel</a>
-    <button class="btn btn-primary" type="submit">Update</button>
-</form>
-</div>

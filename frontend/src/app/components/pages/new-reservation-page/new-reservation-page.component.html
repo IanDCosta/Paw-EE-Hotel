@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="form-container">
+        <h2>Your Reservation On Room {{room.roomNumber}}
+        </h2>
+
+        <div class="form-item">
+            <label>Begin Date:</label>
+            <input type="date" [min]="beginMinDate" [max]="beginMaxDate" [(ngModel)]="dateBegin"
+                (ngModelChange)="onBeginDateChange($event)" name="dateBegin">
+        </div>
+
+        <div class="form-item">
+            <label>Begin Date:</label>
+            <input type="date" [min]="endMinDate" [(ngModel)]="dateEnd" (ngModelChange)="onEndDateChange($event)"
+                name="dateEnd">
+        </div>
+
+        <div *ngFor="let occupant of occupants; let i = index" class="form-item">
+            <label>Occupant {{ i + 1 }}:</label>
+            <input type="text" [value]="occupant.name" disabled>
+            <input type="number" [value]="occupant.age" disabled>
+            <button type="button" (click)="removeOccupant(i)" class="btn btn-danger">Remove</button>
+        </div>
+
+        <div class="form-item">
+            <label>Add New Occupant:</label>
+            <input type="text" placeholder="Name" [(ngModel)]="newOccupantName">
+            <input type="number" placeholder="Age" [(ngModel)]="newOccupantAge">
+            <button type="button" class="btn btn-primary" (click)="addNewOccupant(newOccupantName, newOccupantAge)">Add Occupant</button>
+        </div>
+
+        <h3>Occupants ({{ countedOccupants }} / {{ room.capacity }})</h3>
+
+        <div class="form-item">
+            <label>Observations:</label>
+            <input type="text" [(ngModel)]="observations" name="observations">
+        </div>
+
+        <div class="form-item">
+            <label>Apply Gift Card (Optional):</label>
+            <select [(ngModel)]="selectedGiftCard" name="giftCard">
+                <option *ngFor="let giftCard of giftCards" [value]="giftCard._id">
+                    {{ giftCard.discount }}% off
+                </option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary" type="button" (click)="submitReservation()">Submit Reservation</button>
+    </div>
+</div>

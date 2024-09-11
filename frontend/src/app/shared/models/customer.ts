@@ -1,3 +1,5 @@
+import { GiftCard } from "./giftCard";
+
 export class Customer {
   _id!: string;
   name!: string;
@@ -5,6 +7,7 @@ export class Customer {
   password!: string;
   contact!: string;
   address!:string;
+  giftCards?: GiftCard[];
   role!: 'Customer';
   state!: 'Active';
   

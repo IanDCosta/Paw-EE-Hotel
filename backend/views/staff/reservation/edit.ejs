@@ -1,23 +1,7 @@
 <div class="form-container">
     <h2>Edit Reservation</h2>
     <form action="/staff/manage-reservations/<%= reservation.id %>?_method=PUT" method="POST">
-        <ul>
-            <li>Room: <%= reservation.room.roomNumber %></li>
-            <li>Begin: <%= reservation.dateBegin.toDateString() %></li>
-            <li>End: <%= reservation.dateEnd.toDateString() %></li>
-            <li>Customer: <%= reservation.customer.name %></li>
-            <li>Daily: € <%= reservation.dailyPrice %></li>
-        </ul>
-        <div class="form-row">
-            <div class="form-item">
-                <label>Change State</label>
-                <select name="state">
-                    <% states.forEach(state => { %>
-                        <option <% if(reservation.state === state ) { %> selected <% } %> value="<%= state %>" ><%= state %></option>
-                    <% }) %>
-                </select>
-            </div>
-        </div>
+        <%- include('_form_fields') %>
         <a href="/staff/manage-reservations/<%= reservation.id %>">Cancel</a>
         <button class="btn btn-primary" type="submit">Update</button>
     </form>

@@ -1,12 +1,9 @@
 const mongoose = require("mongoose");
-/* const Hotel = require('./hotel')
-const Room = require('./room')
- */
 
 const reservationSchema = new mongoose.Schema({
-  code: {
+  observations: {
     type: String,
-    required: true,
+    required: false,
   },
   room: {
     type: mongoose.Schema.Types.ObjectId,
@@ -25,17 +22,22 @@ const reservationSchema = new mongoose.Schema({
     {
       name: {
         type: String,
-        required: false, //!
+        required: false,
       },
       age: {
         type: Number,
-        required: false, //!
+        required: false,
       },
     },
   ],
   customer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Customer",
+  },
+  giftCard: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "GiftCard",
+    required: false
   },
   dailyPrice: {
     type: Number,
@@ -52,11 +54,15 @@ const reservationSchema = new mongoose.Schema({
 reservationSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'customer',
-    select: 'name', // Only populate the 'name' field from the customer
+    select: 'name',
   })
   .populate({
     path: 'room',
-    select: {roomNumber: 1, photoName: 1}, // Optionally populate the room if needed
+    select: {roomNumber: 1, photoName: 1},
+  })
+  .populate({
+    path: 'giftCard',
+    select: {description: 1, discount: 1}
   });
   
   next();

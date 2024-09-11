@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="form-container">
+        <h2>
+            Your Reservation:
+        </h2>
+        <ul>
+            <li>
+                Your Room: {{reservation.room.roomNumber}}
+            </li>
+            <li>
+                Date Begin: {{reservation.dateBegin}}
+            </li>
+            <li>
+                Date End: {{reservation.dateEnd}}
+            </li>
+            <li *ngIf="reservation.observations != ''">
+                Observations: {{reservation.observations}}
+            </li>
+            <li>
+                Daily Price: {{reservation.dailyPrice | currency}}
+            </li>
+            <h4>Occupants:</h4>
+            <ul *ngFor="let occupant of reservation.occupants; let i = index">
+                Occupant {{i}}:
+                <li>Name: {{occupant.name}}</li>
+                <li>Age: {{occupant.age}}</li>
+            </ul>
+            <h4>State: {{reservation.state}}</h4>
+        </ul>
+        <button *ngIf="reservation.state === 'Pending'" class="btn btn-danger" (click)="cancelReservation()">Cancel Reservation</button>
+    </div>
+</div>

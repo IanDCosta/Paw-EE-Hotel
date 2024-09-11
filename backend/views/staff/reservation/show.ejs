@@ -5,10 +5,14 @@
 
         <ul>
             <li>Room: <%= reservation.room.roomNumber %></li>
+            <li>Observations: <%= reservation.observations %></li>
             <li>Begin: <%= reservation.dateBegin.toDateString() %></li>
             <li>End: <%= reservation.dateEnd.toDateString() %></li>
             <li>Customer: <%= reservation.customer.name %></li>
             <li>Daily: € <%= reservation.dailyPrice %></li>
+            <% for (let i=0; i < reservation.occupants.length; i++) { %>
+                <li>Occupant <%= i + 1 %> Name: <%= reservation.occupants[i].name %>; Age: <%= reservation.occupants[i].age %></li>
+            <% } %>
         </ul>
 
         <a href="/staff/manage-reservations/<%= reservation.id %>/edit">Edit</a>

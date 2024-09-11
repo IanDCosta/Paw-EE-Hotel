@@ -10,12 +10,22 @@ const fs = require("fs");
 const path = require("path");
 const uploadPath = path.join("public", Room.photoBasePath);
 const imageMimeTypes = ["image/jpeg", "image/png", "image/gif"]; //image types accepted
-const upload = multer({
-  dest: uploadPath,
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname); // extract the file extension
+    cb(null, file.fieldname + '-' + Date.now() + ext); // ensure extension is included
+  }
+});
+const upload = multer({ 
+  storage: storage, 
   fileFilter: (req, file, callback) => {
     const isValidMimeType = imageMimeTypes.includes(file.mimetype);
     callback(null, isValidMimeType);
-  },
+  } 
 });
 //photo stuff end
 
@@ -62,6 +72,7 @@ roomController.newRoom = async (req, res) => {
 
   const room = new Room({
     roomNumber: req.body.roomNumber,
+    typology: req.body.typology,
     dailyPrice: req.body.dailyPrice,
     capacity: req.body.capacity,
     photoName: filename,
@@ -114,19 +125,23 @@ roomController.editRoomPage = async (req, res) => {
 };
 
 //room edited
-(roomController.editRoom = upload.single("photo")),
+roomController.editRoom = [
+  upload.single("photo"),
   async (req, res) => {
     const filename = req.file != null ? req.file.filename : null;
     let room;
     try {
       room = await Room.findById(req.params.id);
 
-      removePhoto(room.photoName);
+      if (room.photoName) {
+        removePhoto(room.photoName);  // Remove old photo if it exists
+      }
 
       room.roomNumber = req.body.roomNumber;
+      room.typology = req.body.typology;
       room.dailyPrice = req.body.dailyPrice;
       room.capacity = req.body.capacity;
-      room.photoName = filename;
+      room.photoName = filename;  // Update with new filename
 
       await room.save();
       res.redirect(`${room.id}`);
@@ -142,7 +157,9 @@ roomController.editRoomPage = async (req, res) => {
         });
       }
     }
-  };
+  },
+];
+
 
 //delete room
 roomController.deleteRoom = async (req, res) => {

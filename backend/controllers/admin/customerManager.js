@@ -4,10 +4,10 @@ const Customer = require('../../models/customer')
 const Reservation = require('../../models/reservation')
 const bcrypt = require("bcrypt")
 
-customerController = {}
+roomController = {}
 
 // rota all customers
-customerController.getCustomers = async (req, res) => {
+roomController.getCustomers = async (req, res) => {
     let searchOptions = {}
     if (req.query.name != null && req.query.name !== '') {
         searchOptions.name = new RegExp(req.query.name, 'i') //this way you can only type "mon" to find "monkey"
@@ -24,12 +24,12 @@ customerController.getCustomers = async (req, res) => {
 }
 
 // rota new customer, display form
-customerController.newCustomerPage = (req, res)=>{
+roomController.newCustomerPage = (req, res)=>{
     res.render('admin/account_management/customer/new', { customer: new Customer() })
 }
 
 // cria o customer
-customerController.newCustomer = async (req, res)=>{
+roomController.newCustomer = async (req, res)=>{
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const customer = new Customer({
         name: req.body.name,
@@ -50,7 +50,7 @@ customerController.newCustomer = async (req, res)=>{
 }
 
 //see customer profile
-customerController.viewCustomer = async (req, res) =>{
+roomController.viewCustomer = async (req, res) =>{
     try{
         const customer = await Customer.findById(req.params.id)
         const reservations = await Reservation.find({ customer: customer.id }).exec()
@@ -64,7 +64,7 @@ customerController.viewCustomer = async (req, res) =>{
 }
 
 //edit customer
-customerController.editCustomerPage = async (req, res) => {
+roomController.editCustomerPage = async (req, res) => {
     try{
         const customer = await Customer.findById(req.params.id)
         res.render('admin/account_management/customer/edit', { customer: customer })    
@@ -74,7 +74,7 @@ customerController.editCustomerPage = async (req, res) => {
 }
 
 //customer edited
-customerController.editCustomer = async (req, res) => {
+roomController.editCustomer = async (req, res) => {
     let customer
     try {
         customer = await Customer.findById(req.params.id)
@@ -101,7 +101,7 @@ customerController.editCustomer = async (req, res) => {
 }
 
 //delete customer
-customerController.deleteCustomer = async (req, res) => {
+roomController.deleteCustomer = async (req, res) => {
     let customer
     try {
         customer = await Customer.findById(req.params.id)
@@ -119,4 +119,4 @@ customerController.deleteCustomer = async (req, res) => {
     }
 }
 
-module.exports = customerController;
+module.exports = roomController;

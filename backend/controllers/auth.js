@@ -14,7 +14,6 @@ authController.submittedLogin = async function (req, res, next) {
     const admin = await Admin.findOne({ email: emailInput });
 
     if (!staff && !admin) {
-        // Handle case where user is not found
         return res.redirect('/login');
     }
 

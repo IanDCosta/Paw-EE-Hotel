@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="form-container">
+        <h2>GiftCard</h2>
+
+        <ul>
+            <li>Description: <%= giftCard.description %></li>
+            <li>Discount: <%= giftCard.discount %>%</li>
+        </ul>
+
+        <a href="/staff/manage-giftCards/<%= giftCard.id %>/edit">Edit</a>
+        <%- include('../../partials/deleteForm.ejs', { url: `/staff/manage-giftCards/${giftCard.id}` }) %>
+        <a href="/staff/manage-giftCards/<%= giftCard._id %>/choose-customer" class="btn btn-primary">Assign to Customer</a>
+    </div>
+</div>

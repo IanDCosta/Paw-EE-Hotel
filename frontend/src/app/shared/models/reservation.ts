@@ -1,19 +1,21 @@
 import { Customer } from "./customer";
+import { GiftCard } from "./giftCard";
 import { Room } from "./room";
 
 export class Reservation{
     _id!:string;
-    code!:string;
+    observations?:string;
     room!:Room;
     dateBegin!:Date;
     dateEnd!:Date;
     occupants!: Occupant[];
     customer!:Customer;
+    giftCard?:GiftCard;
     dailyPrice!:number;
     state!:"Pending";
 
-    constructor(code:string, room:Room, dateBegin:Date, dateEnd:Date, customer:Customer, dailyPrice:number){
-        this.code = code;
+    constructor(room:Room, dateBegin:Date, dateEnd:Date, customer:Customer, dailyPrice:number){
+        //this.code = code;
         this.room = room;
         this.dateBegin = dateBegin;
         this.dateEnd = dateEnd;

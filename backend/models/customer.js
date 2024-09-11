@@ -22,6 +22,13 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  giftCards: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "GiftCard",
+      required: false
+    },
+  ],
   role: {
     type: String,
     required: true,
@@ -36,13 +43,21 @@ const customerSchema = new mongoose.Schema({
   },
 });
 
+customerSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'giftCards', 
+    select: { description: 1, discount: 1 },
+  });
+  next();
+});
+
 //run the method before remove customer
 customerSchema.pre("deleteOne", async function (next) {
   try {
     const query = this.getFilter();
-    const hasPet = await Reservation.exists({ customer: query._id });
+    const hasReservation = await Reservation.exists({ customer: query._id });
 
-    if (hasPet) {
+    if (hasReservation) {
       next(new Error("This customer still has reservations."));
     } else {
       next();
@@ -52,22 +67,24 @@ customerSchema.pre("deleteOne", async function (next) {
   }
 });
 
-customerSchema.pre('save', async function (next) {
-  if (this.isModified('state') && this.state === 'Inactive') {
+customerSchema.pre("save", async function (next) {
+  if (this.isModified("state") && this.state === "Inactive") {
     try {
       // Check if the customer has any reservations
       const hasReservations = await Reservation.exists({ customer: this._id });
 
       if (hasReservations) {
         // Prevent state change if reservations exist
-        return next(new Error("Cannot change state to 'Inactive' because the customer has reservations."));
+        return next(
+          new Error(
+            "Cannot change state to 'Inactive' because the customer has reservations."
+          )
+        );
       }
     } catch (err) {
       return next(err);
     }
   }
-
-  // Proceed with saving if no conditions are violated
   next();
 });
 

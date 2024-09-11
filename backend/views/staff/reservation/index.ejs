@@ -1,9 +1,9 @@
 <div class="form-container">
-<form class="form-row" action="/reservation" method="GET">
+<form class="form-row" action="/staff/manage-reservations" method="GET">
     <label>Search Reservation</label>
     <div class="search-form">
-    <input type="text" name="code" value="<%= searchOptions.code %>">
-    <button type="submit">Search</button>
+    <input type="text" name="code" placeholder="Reservation Code" value="<%= searchOptions.code %>">
+    <button class="btn btn-primary" type="submit">Search</button>
 </div>
 </form>
 </div>

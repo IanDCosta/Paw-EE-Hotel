@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="container" *ngFor="let giftCard of giftCards">
+        <img class="main" height="90" width="90" src="/assets/gift.png">
+        <h2>{{giftCard.discount}}%</h2>
+        <ul>
+            <li>Description: {{giftCard.description}}</li>
+            <li>Discount: {{giftCard.discount}}%</li>
+        </ul>
+    </div>
+    <div *ngIf="giftCards == undefined || giftCards.length <= 0">
+        <h2>You have no gift cards available right now.</h2>
+    </div>
+</div>

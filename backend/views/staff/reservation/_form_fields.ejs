@@ -1,12 +1,4 @@
-<!-- partial file! 
-    theorically you cant create reservations in backend!
--->
 <div class="form-row">
-    <div class="form-item">
-        <label>Code</label>
-        <input type="text" name="code" value="<%= reservation.code %>">
-    </div>
-
     <div class="form-item">
         <label>Begin Date:</label>
         <input type="date" min="<% %>" name="dateBegin"
@@ -20,17 +12,17 @@
     </div>
 
     <div class="form-item">
-        <% for (let i = 0; i < room.capacity; i++) { %>
+        <% for (let i=0; i < reservation.occupants.length; i++) { %>
             <div class="occupant-field">
                 <div>
                     <label>Occupant <%= i + 1 %> Name:</label>
                     <input type="text" name="occupants[<%= i %>].name" placeholder="Occupant <%= i + 1 %> Name"
-                        required>
+                        value="<%= reservation.occupants[i].name %>" required>
                 </div>
                 <div>
                     <label>Occupant <%= i + 1 %> Age:</label>
                     <input type="number" name="occupants[<%= i %>].age" placeholder="Occupant <%= i + 1 %> Age"
-                        required>
+                    value="<%= reservation.occupants[i].age %>" required>
                 </div>
             </div>
             <br>
@@ -44,6 +36,22 @@
                 <option label="<%= customer.name %>" value="<%= customer.id %>"></option>
                 <% }) %>
         </select>
+    </div>
+    
+    <div class="form-item">
+        <label>Observations:</label>
+        <input type="text" name="observations" value="<%= reservation.observations %>">
+    </div>
+
+    <div class="form-row">
+        <div class="form-item">
+            <label>Change State</label>
+            <select name="state">
+                <% states.forEach(state => { %>
+                    <option <% if(reservation.state === state ) { %> selected <% } %> value="<%= state %>" ><%= state %></option>
+                <% }) %>
+            </select>
+        </div>
     </div>
 
     <input type="hidden" name="roomId" value="<%= room._id %>">

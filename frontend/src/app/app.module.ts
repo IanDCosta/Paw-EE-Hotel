@@ -14,6 +14,10 @@ import { LoginPageComponent } from './components/pages/login-page/login-page.com
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './components/pages/register/register.component';
 import { provideHttpClient } from '@angular/common/http';
+import { NewReservationPageComponent } from './components/pages/new-reservation-page/new-reservation-page.component';
+import { ReservationPageComponent } from './components/pages/reservation-page/reservation-page.component';
+import { CustomerReservationsPageComponent } from './components/pages/customer-reservations-page/customer-reservations-page.component';
+import { CustomerGiftcardsPageComponent } from './components/pages/customer-giftcards-page/customer-giftcards-page.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +30,11 @@ import { provideHttpClient } from '@angular/common/http';
     RoomPageComponent,
     CustomerPageComponent,
     LoginPageComponent,
-    RegisterComponent
+    RegisterComponent,
+    NewReservationPageComponent,
+    ReservationPageComponent,
+    CustomerReservationsPageComponent,
+    CustomerGiftcardsPageComponent
   ],
   imports: [
     BrowserModule,

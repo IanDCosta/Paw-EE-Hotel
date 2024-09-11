@@ -5,14 +5,12 @@ const Reservation = require("../models/reservation");
 //index route
 router.get("/", async (req, res) => {
   let reservations;
-  //res.locals.title = "Abel's Home Page";
   try {
     reservations = await Reservation.find({ state: "Pending" })
       .sort({ createdAt: "desc" })
-      .exec(); //get the newest reservations first
+      .exec();
   } catch {}
-  res.render("index", { reservations: reservations, user: req.user}); //render a view index.ejs
+  res.render("index", { reservations: reservations, user: req.user});
 });
-//index route
 
 module.exports = router;

@@ -20,14 +20,29 @@
 </div>
 <!-- show customer resrevations? -->
 <% if (reservationsByCustomer.length> 0) { %>
+    <h3>This Customer's Reservations:</h3>
     <div class="row">
         <% reservationsByCustomer.forEach(reservation=> { %>
             <div class="container">
                 <img height="150" width="150" src="<%= reservation.room.photoPath %>">
-                <a href="/room/<%= reservation.id %>">
-                    Reservation Code: <%= reservation.code %>
+                <a href="/admin/manage-rooms/<%= reservation.id %>">
+                    Reservation Room: <%= reservation.room.roomNumber %>
                 <a>
             </div>
         <% }) %>
     </div>
+<% } %>
+
+<% if (customer.giftCards.length> 0) { %>
+    <h3>This Customer's Gift Cards:</h3>
+        <div class="row">
+            <% customer.giftCards.forEach(giftCard=> { %>
+                <div class="container">
+                    <ul>
+                        <li>Description: <%= giftCard.description %></li>
+                        <li>Discount: <%= giftCard.discount %>%</li>
+                    </ul>
+                </div>
+            <% }) %>
+        </div>
 <% } %>

@@ -1,0 +1,8 @@
+<div class="form-container">
+    <h2>Edit GiftCard</h2>
+    <form action="/staff/manage-giftCards/<%= giftCard.id %>?_method=PUT" method="POST">
+        <%- include('_form_fields') %>
+        <a href="/staff/manage-giftCards/<%= giftCard.id %>">Cancel</a>
+        <button class="btn btn-primary" type="submit">Update</button>
+    </form>
+    </div>

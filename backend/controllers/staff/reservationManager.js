@@ -4,22 +4,22 @@ const Reservation = require("../../models/reservation");
 const Customer = require("../../models/customer");
 const Room = require("../../models/room");
 
-reservationController = {}
+reservationController = {};
 
 // rota all reservations
 reservationController.getReservations = async (req, res) => {
   let searchOptions = {};
-  if (req.query.code != null && req.query.code !== "") {
-    searchOptions.code = new RegExp(req.query.code, "i");
+  if (req.query.observations != null && req.query.observations !== "") {
+    searchOptions.observations = new RegExp(req.query.observations, "i");
   }
   try {
-    const reservations = await Reservation.find({});
+    const reservations = await Reservation.find(searchOptions);
     res.render("staff/reservation/index", {
       reservations: reservations,
       searchOptions: req.query,
     });
   } catch {
-    res.redirect("/");
+    res.redirect("/staff");
   }
 };
 
@@ -49,11 +49,18 @@ reservationController.newReservationChoseRoom = async (req, res) => {
   }
 };
 
-async function renderNewPage(res, roomId, customers, reservation, hasError = false) {
+async function renderNewPage(
+  res,
+  roomId,
+  customers,
+  reservation,
+  hasError = false
+) {
   try {
     const room = await Room.findById(roomId);
-    
+    const states = ["Pending", "Confirmed", "Paid", "Cancelled"];
     const params = {
+      states: states,
       room: room, // The selected room
       customers: customers,
       reservation: reservation, // The new reservation object
@@ -69,15 +76,15 @@ async function renderNewPage(res, roomId, customers, reservation, hasError = fal
 // cria o reservation
 reservationController.newReservation = async (req, res) => {
   const reservation = new Reservation({
-    code: req.body.code,
+    observations: req.body.observations,
     dateBegin: new Date(req.body.dateBegin),
-    dateEnd: new Date(req.body.dateEnd)
+    dateEnd: new Date(req.body.dateEnd),
   });
 
   try {
     const customerId = req.body.customer;
     const customer = await Customer.findById(customerId);
-    
+
     reservation.customer = customer;
 
     const roomId = req.body.roomId;
@@ -89,11 +96,11 @@ reservationController.newReservation = async (req, res) => {
     console.log(req.body.occupants);
 
     let occupants = [];
-    for(let i = 0; i < room.capacity; i++){
+    for (let i = 0; i < room.capacity; i++) {
       occupants.push({
         name: req.body.occupants[i].name,
-        age: req.body.occupants[i].age
-      })
+        age: req.body.occupants[i].age,
+      });
     }
 
     reservation.occupants = occupants;
@@ -135,12 +142,6 @@ reservationController.viewReservation = async (req, res) => {
 reservationController.editReservationPage = async (req, res) => {
   try {
     renderEditPage(res, await Reservation.findById(req.params.id), false);
-    /* 
-    res.render("reservation/edit", { 
-      reservation: reservation, 
-      hotels: hotels,
-      pets: pets
-    }); */
   } catch {
     res.redirect("/reservation");
   }
@@ -152,17 +153,34 @@ reservationController.editReservation = async (req, res) => {
   try {
     reservation = await Reservation.findById(req.params.id);
 
-    /* reservation.code = req.body.code
-    reservation.location = {
-      hotel: req.body.location
+    reservation.observations = req.body.observations;
+    reservation.dateBegin = new Date(req.body.dateBegin);
+    reservation.dateEnd = new Date(req.body.dateEnd);
+
+    const customerId = req.body.customer;
+    const customer = await Customer.findById(customerId);
+
+    reservation.customer = customer;
+
+    const roomId = req.body.roomId;
+    const room = await Room.findById(roomId);
+
+    reservation.room = room;
+    reservation.dailyPrice = room.dailyPrice;
+
+    let occupants = [];
+    for (let i = 0; i < room.capacity; i++) {
+      occupants.push({
+        name: req.body.occupants[i].name,
+        age: req.body.occupants[i].age,
+      });
     }
-    reservation.dateBegin = new Date(req.body.dateBegin)
-    reservation.dateEnd = new Date(req.body.dateEnd)
-    reservation.pet = req.body.pet */
+
+    reservation.occupants = occupants;
 
     reservation.state = req.body.state;
 
-    await reservation.save(); //will populate newReservation after saving reservation
+    await reservation.save();
     res.redirect(`${reservation.id}`);
   } catch {
     if (reservation == null) {
@@ -175,16 +193,14 @@ reservationController.editReservation = async (req, res) => {
 
 async function renderEditPage(res, reservation, hasError = false) {
   try {
-    /* const hotels = await Hotel.findHotelsWithVacantRooms({});
-    const pets = await Pet.find({}); */
     const states = ["Pending", "Confirmed", "Paid", "Cancelled"];
+    const customers = await Customer.find({});
     const params = {
-      /* hotels: hotels,
-      pets: pets, */
+      customers: customers,
+      room: reservation.room,
       reservation: reservation,
       states: states,
     };
-    //const reservation = await Reservation.findById(req.params.id);
 
     if (hasError) params.errorMessage = "Error Updating Reservation";
     res.render("staff/reservation/edit", params);
@@ -198,10 +214,8 @@ reservationController.deleteReservation = async (req, res) => {
   let reservation;
   try {
     reservation = await Reservation.findById(req.params.id);
-    //const room = await Room.findOneAndUpdate({ id: reservation.location.room.id },{ isVacant: true })
     const room = await Room.findById(reservation.room.id);
     room.isVacant = true;
-    //console.log(room + " " + reservation.location.room.id);
     room.save();
 
     await reservation.deleteOne(); //will remove reservation

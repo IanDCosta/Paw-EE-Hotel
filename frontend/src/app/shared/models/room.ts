@@ -6,6 +6,7 @@ export class Room{
     dailyPrice!:number;
     capacity!:number;
     photoName!:string | null | undefined;
+    photoPath?: string;
 
     constructor(roomNumber:number, typology:string, dailyPrice:number, capacity:number, photoName:string | null | undefined){
         this.roomNumber = roomNumber;

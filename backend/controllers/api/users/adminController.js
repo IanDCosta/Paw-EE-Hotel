@@ -8,7 +8,7 @@ adminController.getAllAdmins = async (req,res,next) =>{
         const admins = await Admin.find().exec();
         res.json(admins);
     } catch (error) {
-        next(error); // Pass the error to the error handling middleware
+        next(error);
     }
 }
 
@@ -23,7 +23,6 @@ adminController.createAdmin = async (req,res,next) => {
     try {
         await admin.save()
         res.json(admin)
-        
     } catch(error) {
         next(error)
     }
@@ -54,9 +53,9 @@ adminController.deleteAdmin = async(req,res,next) => {
             return res.status(404).json({ error: 'Admin not found' });
         }
         
-        res.status(200).send(); // Send a success response with no content
+        res.status(200).send(); 
     } catch (error) {
-        next(error); // Pass the error to the error handling middleware
+        next(error); 
     }
 }
 

@@ -1,20 +1,22 @@
 <div class="row">
     <div class="form-container">
         <h2>
-            Room Number: {{room.roomNumber}}
+            Room Number: {{roomWithImage.room.roomNumber}}
         </h2>
 
-        <img height="250" width="250" src="{{room.photoName}}" alt="{{room.roomNumber}}" />
+        <img height="250" width="250" [src]="roomWithImage.imageData" alt="{{roomWithImage.room.roomNumber}}" />
 
         <ul>
-            <li>Typology: {{room.typology}}
+            <li>Typology: {{roomWithImage.room.typology}}
             </li>
-            <li>Daily Price: {{room.dailyPrice | currency}}
+            <li>Daily Price: {{roomWithImage.room.dailyPrice | currency}}
             </li>
-            <li>Capacity: {{room.capacity}}
+            <li>Capacity: {{roomWithImage.room.capacity}}
             </li>
-            <li>Available: {{room.isVacant}}
+            <li>Available: {{roomWithImage.room.isVacant}}
             </li>
         </ul>
+
+        <button *ngIf="roomWithImage.room.isVacant" class="btn btn-primary" (click)="navigateToReservation()">Book This Room</button>
     </div>
 </div>

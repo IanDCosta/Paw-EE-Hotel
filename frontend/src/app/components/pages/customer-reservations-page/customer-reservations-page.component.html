@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="container" *ngFor="let reservation of reservations">
+        <a routerLink="/reservation/{{reservation._id}}">
+            <ul>
+                <h2>Reservation</h2>
+                <li>Room Number: {{reservation.room.roomNumber}}</li>
+                <li>Date Begin: {{reservation.dateBegin}}</li>
+                <li>Date End: {{reservation.dateEnd}}</li>
+                <li>Daily Price: {{reservation.dailyPrice | currency}}</li>
+                <h4>State: {{reservation.state}}</h4>
+            </ul>
+        </a>
+    </div>
+    <div *ngIf="reservations == undefined || reservations.length <= 0">
+        <h2>You have no reservations right now.</h2>
+    </div>
+</div>
